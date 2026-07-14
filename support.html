@@ -37,7 +37,7 @@
                     spotting mistakes and sending verified information from official sources.
                 </p>
                 <div class="hero-actions">
-                    <a class="primary-button" href="#report-builder">Prepare a correction report</a>
+                    <a class="primary-button" href="#verify-supporter">Verify a supporter</a>
                     <a class="secondary-button" href="about.html">Read about the project</a>
                 </div>
             </article>
@@ -104,6 +104,53 @@
 
         </section>
 
+
+
+        <section class="verifier-section" id="verify-supporter">
+            <div class="section-title">
+                <div>
+                    <span class="eyebrow">Live Roblox ownership check</span>
+                    <h2>Verify a supporter account</h2>
+                    <p>
+                        Enter a Roblox account username to check which BRDB support
+                        passes it currently owns.
+                    </p>
+                </div>
+            </div>
+
+            <form class="verifier-form" id="supporterCheckerForm">
+                <input
+                    id="robloxUsername"
+                    name="username"
+                    type="text"
+                    maxlength="20"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Roblox username — not display name"
+                    aria-label="Roblox username"
+                    required
+                >
+                <button class="primary-button" id="checkSupporterButton" type="submit">
+                    Check Supporter Status
+                </button>
+            </form>
+
+            <p class="verifier-help">
+                The checker reads public Roblox ownership information through the
+                BRDB Cloudflare Worker. No Roblox password, cookie or login is requested.
+            </p>
+
+            <div
+                class="verifier-result"
+                id="supporterCheckResult"
+                aria-live="polite"
+            ></div>
+
+            <div class="verifier-warning">
+                This confirms that the entered account owns a pass. It does not prove
+                that the person entering the username controls that Roblox account.
+            </div>
+        </section>
 
         <section class="pass-section" id="support-passes">
             <div class="section-title">
@@ -300,6 +347,7 @@
             outputField.value = "";
         };
     </script>
+    <script src="support-checker.js"></script>
     <script src="site.js"></script>
 </body>
 </html>
