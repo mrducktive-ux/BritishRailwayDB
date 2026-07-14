@@ -1,5 +1,5 @@
 (function () {
-    var WORKER_URL = "https://brbd-support-checker.mrducktive.workers.dev";
+var WORKER_URL = "https://brbd-suport-checker.mrducktive.workers.dev";
 
     var form = document.getElementById("supporterCheckerForm");
     var usernameInput = document.getElementById("robloxUsername");
