@@ -1,5 +1,8 @@
 (function () {
-var WORKER_URL = "https://brbd-suport-checker.mrducktive.workers.dev";
+    "use strict";
+
+    // IMPORTANT: Your Cloudflare Worker uses ONE "p" in "suport".
+    var WORKER_URL = "https://brbd-suport-checker.mrducktive.workers.dev";
 
     var form = document.getElementById("supporterCheckerForm");
     var usernameInput = document.getElementById("robloxUsername");
@@ -19,9 +22,19 @@ var WORKER_URL = "https://brbd-suport-checker.mrducktive.workers.dev";
             .replace(/'/g, "&#039;");
     }
 
-    function showResult(type, html) {
+    function showResult(type, title, message, extraHtml) {
         resultBox.className = "verifier-result visible " + type;
-        resultBox.innerHTML = html;
+        resultBox.innerHTML =
+            '<h3 class="verifier-title">' + escapeHtml(title) + "</h3>" +
+            "<p>" + message + "</p>" +
+            (extraHtml || "");
+    }
+
+    function setLoading(isLoading) {
+        button.disabled = isLoading;
+        button.textContent = isLoading
+            ? "Checking..."
+            : "Check Supporter Status";
     }
 
     form.addEventListener("submit", function (event) {
@@ -32,105 +45,125 @@ var WORKER_URL = "https://brbd-suport-checker.mrducktive.workers.dev";
         if (!/^[A-Za-z0-9_]{3,20}$/.test(username)) {
             showResult(
                 "error",
-                '<h3 class="verifier-title">Invalid username</h3>' +
-                '<p>Enter the account username, not a display name.</p>'
+                "Invalid username",
+                "Enter the Roblox account username, not the display name."
             );
             return;
         }
 
-        button.disabled = true;
-        button.textContent = "Checking...";
+        setLoading(true);
+
         showResult(
             "loading",
-            '<h3 class="verifier-title">Checking Roblox...</h3>' +
-            '<p>Looking for BRDB support passes owned by <strong>' +
-            escapeHtml(username) +
-            "</strong>.</p>"
+            "Checking Roblox...",
+            "Looking for BRDB support passes owned by <strong>" +
+                escapeHtml(username) +
+                "</strong>."
         );
 
-        fetch(
-            WORKER_URL + "/check?username=" + encodeURIComponent(username),
-            {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json"
-                }
+        var requestUrl =
+            WORKER_URL +
+            "/check?username=" +
+            encodeURIComponent(username) +
+            "&t=" +
+            new Date().getTime();
+
+        fetch(requestUrl, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-store",
+            headers: {
+                "Accept": "application/json"
             }
-        )
+        })
             .then(function (response) {
-                return response.json().then(function (data) {
-                    return {
-                        ok: response.ok,
-                        data: data
-                    };
+                return response.text().then(function (text) {
+                    var data;
+
+                    try {
+                        data = JSON.parse(text);
+                    } catch (error) {
+                        throw new Error(
+                            "The checker returned an invalid response."
+                        );
+                    }
+
+                    if (!response.ok || !data.ok) {
+                        throw new Error(
+                            data.error ||
+                            "The account could not be checked."
+                        );
+                    }
+
+                    return data;
                 });
             })
-            .then(function (result) {
-                if (!result.ok || !result.data.ok) {
-                    throw new Error(
-                        result.data && result.data.error
-                            ? result.data.error
-                            : "The account could not be checked."
-                    );
-                }
-
-                var data = result.data;
+            .then(function (data) {
                 var accountName = escapeHtml(data.user.username);
-                var displayName = escapeHtml(data.user.displayName || data.user.username);
+                var displayName = escapeHtml(
+                    data.user.displayName || data.user.username
+                );
 
                 if (!data.supporter || !data.highestTier) {
                     showResult(
                         "not-owned",
-                        '<h3 class="verifier-title">No support pass found</h3>' +
-                        '<p class="verifier-account"><strong>' +
-                        displayName +
-                        "</strong> (@" +
-                        accountName +
-                        ")</p>" +
-                        "<p>This Roblox account does not currently own one of the six BRDB support passes.</p>"
+                        "No support pass found",
+                        '<strong>' +
+                            displayName +
+                            "</strong> (@" +
+                            accountName +
+                            ") does not currently own one of the six BRDB support passes."
                     );
                     return;
                 }
 
-                var owned = data.ownedPasses || [];
+                var ownedPasses = data.ownedPasses || [];
                 var ownedHtml = "";
 
-                for (var i = 0; i < owned.length; i++) {
-                    ownedHtml +=
-                        "<span>" +
-                        escapeHtml(owned[i].name) +
-                        "</span>";
+                if (ownedPasses.length > 0) {
+                    ownedHtml = '<div class="owned-pass-list">';
+
+                    for (var i = 0; i < ownedPasses.length; i++) {
+                        ownedHtml +=
+                            "<span>" +
+                            escapeHtml(ownedPasses[i].name) +
+                            "</span>";
+                    }
+
+                    ownedHtml += "</div>";
                 }
 
                 showResult(
                     "success",
-                    '<h3 class="verifier-title">Verified supporter ✓</h3>' +
-                    '<p class="verifier-account"><strong>' +
-                    displayName +
-                    "</strong> (@" +
-                    accountName +
-                    ")</p>" +
+                    "Verified supporter ✓",
+                    '<strong>' +
+                        displayName +
+                        "</strong> (@" +
+                        accountName +
+                        ")",
                     '<div class="verified-tier">' +
-                    escapeHtml(data.highestTier.name) +
-                    "</div>" +
-                    "<p>Highest BRDB support tier found on this account.</p>" +
-                    (ownedHtml
-                        ? '<div class="owned-pass-list">' + ownedHtml + "</div>"
-                        : "")
+                        escapeHtml(data.highestTier.name) +
+                        "</div>" +
+                        "<p>Highest BRDB support tier found on this account.</p>" +
+                        ownedHtml
                 );
             })
             .catch(function (error) {
                 showResult(
                     "error",
-                    '<h3 class="verifier-title">Could not check Roblox</h3>' +
-                    "<p>" +
-                    escapeHtml(error.message || "Try again shortly.") +
-                    "</p>"
+                    "Could not check Roblox",
+                    escapeHtml(
+                        error && error.message
+                            ? error.message
+                            : "The checker could not connect."
+                    ) +
+                    '<br><br>Worker address being used:<br><code>' +
+                    escapeHtml(WORKER_URL) +
+                    "</code>"
                 );
             })
             .then(function () {
-                button.disabled = false;
-                button.textContent = "Check Supporter Status";
+                setLoading(false);
             });
     });
 }());
