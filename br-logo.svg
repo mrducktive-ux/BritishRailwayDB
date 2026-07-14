@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 56" role="img" aria-label="British Railway logo">
+  <title>British Railway logo</title>
+  <g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M8 17 H48 M48 17 L38 7 M48 17 L38 27"/>
+    <path d="M64 39 H24 M24 39 L34 29 M24 39 L34 49"/>
+    <path d="M20 17 L52 39"/>
+    <path d="M52 17 L20 39"/>
+  </g>
+</svg>

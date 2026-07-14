@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes | British Railway DB</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark brand-logo"><img src="brdb-logo.png" alt="British Railway DB logo"></div>
+                <div>
+                    <h1>British Railway DB</h1>
+                    <p>Routes and route packs</p>
+                </div>
+            </div>
+
+            <nav class="top-nav" aria-label="Main navigation">
+                <details class="page-menu">
+                    <summary>Pages <span aria-hidden="true">▼</span></summary>
+                    <div class="page-menu-panel">
+                        <a href="index.html">Home</a><a href="trains.html">Rolling Stock</a><a href="routes.html" class="current" aria-current="page">Routes</a><a href="weekly.html">Weekly Items</a><a href="about.html">About Us</a><a href="support.html">Support Us</a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="routes-hero">
+            <div class="routes-panel">
+                <span class="eyebrow">Official route information</span>
+                <h2>Routes & Route Packs</h2>
+                <p>
+                    Routes in British Railway are randomly generated depending on your
+                    rolling stock, consist, livery, and purchased route packs.
+                    This page uses a tube-inspired design so you can browse route packs
+                    even without route photos.
+                </p>
+
+                <div class="filter-bar">
+                    <input id="routeSearch" type="text" placeholder="Search Ashdean, Norrington, Shuttle...">
+                    <select id="routeTypeFilter">
+                        <option value="all">All route types</option>
+                        <option value="regional">Regional / Semi-fast</option>
+                        <option value="shuttle">Shuttle</option>
+                        <option value="intercity">Intercity</option>
+                        <option value="mixed">Mixed / Other</option>
+                    </select>
+                </div>
+
+                <div class="route-count-box">
+                    <div class="route-stat">
+                        <strong>11</strong>
+                        Route packs
+                    </div>
+                    <div class="route-stat">
+                        <strong>600</strong>
+                        Highest pack cost
+                    </div>
+                    <div class="route-stat">
+                        <strong>50</strong>
+                        Cheapest paid pack
+                    </div>
+                </div>
+            </div>
+
+            <div class="route-legend routes-panel">
+                <h3>Service colours</h3>
+                <p>Exact colours based on the official wiki route-type menu colours.</p>
+
+                <div class="legend-grid">
+                    <div class="legend-item"><span class="legend-line" style="background:#33aef5;"></span> Regional</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#33aef5;"></span> Semi-fast</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#bb8eff;"></span> Shuttle</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#ffdc41;"></span> Intercity</div>
+                    <div class="legend-item"><span class="legend-line" style="background:#969696;"></span> Empty Coach Stock</div>
+                </div>
+
+                <p class="route-note">
+                    Official Routes wiki link:
+                    <a href="https://britishrailway.fandom.com/wiki/Routes" target="_blank" rel="noopener noreferrer">Open Routes page</a>
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <div>
+                    <h2>Route pack map board</h2>
+                    <p>Tube-style route cards for every pack currently listed on the official wiki.</p>
+                </div>
+            </div>
+
+            <div class="routes-grid" id="routesGrid">
+                
+    <article class="route-card" data-route="default free route mixed leaton victoria docks / longbow / belmond green" data-type="mixed">
+        <div class="route-title-row">
+            <div>
+                <h3>Default Free Route</h3>
+                <div class="route-meta">
+                    <span>Unlock: Leaton ↔ Victoria Docks / Longbow / Belmond Green</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">Free</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(51,174,245,0.14); color: #33aef5; border: 1px solid rgba(51,174,245,0.3);">Regional / Semi-fast</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#6b7280; color:#6b7280;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Leaton</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Victoria Docks / Longbow / Belmond Green</div>
+            </div>
+        </div>
+
+        <p class="route-note">Default starting route.</p>
+    </article>
+    
+    <article class="route-card" data-route="ashdean branch regional / semi-fast longbow ashdean / broomfield" data-type="regional / semi-fast">
+        <div class="route-title-row">
+            <div>
+                <h3>Ashdean Branch</h3>
+                <div class="route-meta">
+                    <span>Unlock: Longbow ↔ Ashdean / Broomfield</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">400 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(51,174,245,0.14); color: #33aef5; border: 1px solid rgba(51,174,245,0.3);">Regional / Semi-fast</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Longbow</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Ashdean / Broomfield</div>
+            </div>
+        </div>
+
+        <p class="route-note">Unlocks the Ashdean section.</p>
+    </article>
+    
+    <article class="route-card" data-route="fayre branchline shuttle / regional mill bridge fayre" data-type="shuttle / regional">
+        <div class="route-title-row">
+            <div>
+                <h3>Fayre Branchline</h3>
+                <div class="route-meta">
+                    <span>Unlock: Mill Bridge ↔ Fayre</span>
+                    <span>Requires: Mill Bridge Mainline</span>
+                </div>
+            </div>
+            <div class="route-price">500 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(187,142,255,0.14); color: #bb8eff; border: 1px solid rgba(187,142,255,0.3);">Shuttle</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#bb8eff; color:#bb8eff;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Mill Bridge</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Fayre</div>
+            </div>
+        </div>
+
+        <p class="route-note">Branch off the Mill Bridge area.</p>
+    </article>
+    
+    <article class="route-card" data-route="fleetwood and avonhill intercity / regional belmond green avonhill" data-type="intercity / regional">
+        <div class="route-title-row">
+            <div>
+                <h3>Fleetwood and Avonhill</h3>
+                <div class="route-meta">
+                    <span>Unlock: Belmond Green ↔ Avonhill</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">600 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(255,220,65,0.14); color: #ffdc41; border: 1px solid rgba(255,220,65,0.3);">Intercity</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#ffdc41; color:#ffdc41;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Belmond Green</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Avonhill</div>
+            </div>
+        </div>
+
+        <p class="route-note">Extended from the old Fleetwood bundle.</p>
+    </article>
+    
+    <article class="route-card" data-route="mill bridge mainline regional / semi-fast / intercity leaton mill bridge" data-type="regional / semi-fast / intercity">
+        <div class="route-title-row">
+            <div>
+                <h3>Mill Bridge Mainline</h3>
+                <div class="route-meta">
+                    <span>Unlock: Leaton ↔ Mill Bridge</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">600 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(255,220,65,0.14); color: #ffdc41; border: 1px solid rgba(255,220,65,0.3);">Intercity</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Leaton</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Mill Bridge</div>
+            </div>
+        </div>
+
+        <p class="route-note">Main route needed for several branches.</p>
+    </article>
+    
+    <article class="route-card" data-route="brynmouth extension regional / shuttle mill bridge brynmouth" data-type="regional / shuttle">
+        <div class="route-title-row">
+            <div>
+                <h3>Brynmouth Extension</h3>
+                <div class="route-meta">
+                    <span>Unlock: Mill Bridge ↔ Brynmouth</span>
+                    <span>Requires: Mill Bridge Mainline</span>
+                </div>
+            </div>
+            <div class="route-price">400 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(187,142,255,0.14); color: #bb8eff; border: 1px solid rgba(187,142,255,0.3);">Shuttle</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#bb8eff; color:#bb8eff;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Mill Bridge</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Brynmouth</div>
+            </div>
+        </div>
+
+        <p class="route-note">Extension from the MBML.</p>
+    </article>
+    
+    <article class="route-card" data-route="newhurst branch regional victoria docks syde-on-sea" data-type="regional">
+        <div class="route-title-row">
+            <div>
+                <h3>Newhurst Branch</h3>
+                <div class="route-meta">
+                    <span>Unlock: Victoria Docks ↔ Syde-On-Sea</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">200 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(51,174,245,0.14); color: #33aef5; border: 1px solid rgba(51,174,245,0.3);">Regional / Semi-fast</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Victoria Docks</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Syde-On-Sea</div>
+            </div>
+        </div>
+
+        <p class="route-note">Shorter branch route.</p>
+    </article>
+    
+    <article class="route-card" data-route="norrington mainline regional / semi-fast / intercity leaton norrington" data-type="regional / semi-fast / intercity">
+        <div class="route-title-row">
+            <div>
+                <h3>Norrington Mainline</h3>
+                <div class="route-meta">
+                    <span>Unlock: Leaton ↔ Norrington</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">600 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(255,220,65,0.14); color: #ffdc41; border: 1px solid rgba(255,220,65,0.3);">Intercity</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Leaton</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Norrington</div>
+            </div>
+        </div>
+
+        <p class="route-note">Mainline route to Norrington.</p>
+    </article>
+    
+    <article class="route-card" data-route="cuffley extension regional / semi-fast norrington cuffley" data-type="regional / semi-fast">
+        <div class="route-title-row">
+            <div>
+                <h3>Cuffley Extension</h3>
+                <div class="route-meta">
+                    <span>Unlock: Norrington ↔ Cuffley</span>
+                    <span>Requires: Norrington Mainline</span>
+                </div>
+            </div>
+            <div class="route-price">450 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(51,174,245,0.14); color: #33aef5; border: 1px solid rgba(51,174,245,0.3);">Regional / Semi-fast</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Norrington</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Cuffley</div>
+            </div>
+        </div>
+
+        <p class="route-note">Extension from the NML.</p>
+    </article>
+    
+    <article class="route-card" data-route="stonebrook branch regional stirling street stonebrook town" data-type="regional">
+        <div class="route-title-row">
+            <div>
+                <h3>Stonebrook Branch</h3>
+                <div class="route-meta">
+                    <span>Unlock: Stirling Street ↔ Stonebrook Town</span>
+                    <span>Requires: Norrington Mainline</span>
+                </div>
+            </div>
+            <div class="route-price">450 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(51,174,245,0.14); color: #33aef5; border: 1px solid rgba(51,174,245,0.3);">Regional / Semi-fast</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#33aef5; color:#33aef5;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Stirling Street</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Stonebrook Town</div>
+            </div>
+        </div>
+
+        <p class="route-note">Branch linked to the NML.</p>
+    </article>
+    
+    <article class="route-card" data-route="victoria harbour shuttle victoria harbour victoria harbour" data-type="shuttle">
+        <div class="route-title-row">
+            <div>
+                <h3>Victoria Harbour</h3>
+                <div class="route-meta">
+                    <span>Unlock: Victoria Harbour ↔ Victoria Harbour</span>
+                    <span>Requires: None</span>
+                </div>
+            </div>
+            <div class="route-price">50 coins</div>
+        </div>
+
+        <span class="route-highlight" style="background: rgba(187,142,255,0.14); color: #bb8eff; border: 1px solid rgba(187,142,255,0.3);">Shuttle</span>
+
+        <div class="tube-strip">
+            <div class="tube-line" style="background:#bb8eff; color:#bb8eff;">
+                <div class="station-dot" style="left: 8%;"></div>
+                <div class="station-label" style="left: 8%;">Victoria Harbour</div>
+
+                <div class="station-dot" style="left: 50%;"></div>
+                <div class="station-label end" style="left: 50%;">Route Pack</div>
+
+                <div class="station-dot" style="left: 92%;"></div>
+                <div class="station-label" style="left: 92%;">Victoria Harbour</div>
+            </div>
+        </div>
+
+        <p class="route-note">Tiny harbour shuttle unlock.</p>
+    </article>
+    
+            </div>
+        </section>
+
+        <section class="earnings-card">
+            <h3>Route earnings comparison</h3>
+            <p>Coins per hour values from the official Routes page.</p>
+
+            <div class="earnings-table-wrap">
+                <table class="earnings-table">
+                    <thead>
+                        <tr>
+                            <th>Route type</th>
+                            <th>Min CPH</th>
+                            <th>Median CPH</th>
+                            <th>Average CPH</th>
+                            <th>Max CPH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+    <tr>
+        <td><span class="route-highlight" style="background:#96969622; color:#969696; border:1px solid #96969655;">ECS</span></td>
+        <td>300</td>
+        <td>320</td>
+        <td>325.8</td>
+        <td>363.3</td>
+    </tr>
+    
+    <tr>
+        <td><span class="route-highlight" style="background:#33aef522; color:#33aef5; border:1px solid #33aef555;">Regional</span></td>
+        <td>315</td>
+        <td>435.6</td>
+        <td>433.2</td>
+        <td>449.5</td>
+    </tr>
+    
+    <tr>
+        <td><span class="route-highlight" style="background:#33aef522; color:#33aef5; border:1px solid #33aef555;">Semi-fast</span></td>
+        <td>351.4</td>
+        <td>475.2</td>
+        <td>483</td>
+        <td>495</td>
+    </tr>
+    
+    <tr>
+        <td><span class="route-highlight" style="background:#bb8eff22; color:#bb8eff; border:1px solid #bb8eff55;">Shuttle</span></td>
+        <td>480</td>
+        <td>521.2</td>
+        <td>525</td>
+        <td>543.3</td>
+    </tr>
+    
+    <tr>
+        <td><span class="route-highlight" style="background:#ffdc4122; color:#ffdc41; border:1px solid #ffdc4155;">Intercity</span></td>
+        <td>420</td>
+        <td>442.2</td>
+        <td>499.2</td>
+        <td>584.2</td>
+    </tr>
+    
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <span>British Railway DB is an unofficial fan-made project using official wiki information.</span>
+                <a href="index.html">Back to homepage</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        var searchBox = document.getElementById("routeSearch");
+        var filterBox = document.getElementById("routeTypeFilter");
+        var routeCards = document.querySelectorAll(".route-card");
+
+        function filterRoutes() {
+            var searchValue = searchBox.value.toLowerCase();
+            var filterValue = filterBox.value;
+
+            for (var i = 0; i < routeCards.length; i++) {
+                var card = routeCards[i];
+                var text = card.getAttribute("data-route");
+                var type = card.getAttribute("data-type");
+                var matchesSearch = text.indexOf(searchValue) !== -1;
+
+                var matchesType = false;
+                if (filterValue === "all") matchesType = true;
+                else if (filterValue === "regional" && (type.indexOf("regional") !== -1 || type.indexOf("semi-fast") !== -1)) matchesType = true;
+                else if (filterValue === "shuttle" && type.indexOf("shuttle") !== -1) matchesType = true;
+                else if (filterValue === "intercity" && type.indexOf("intercity") !== -1) matchesType = true;
+                else if (filterValue === "mixed" && type.indexOf("regional") === -1 && type.indexOf("semi-fast") === -1 && type.indexOf("shuttle") === -1 && type.indexOf("intercity") === -1) matchesType = true;
+
+                if (matchesSearch && matchesType) {
+                    card.classList.remove("hidden");
+                } else {
+                    card.classList.add("hidden");
+                }
+            }
+        }
+
+        searchBox.addEventListener("input", filterRoutes);
+        filterBox.addEventListener("change", filterRoutes);
+    </script>
+    <script src="site.js"></script>
+</body>
+</html>

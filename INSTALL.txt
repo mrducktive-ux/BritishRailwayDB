@@ -1,0 +1,18 @@
+British Railway DB — Support Passes update
+
+1. Extract this ZIP.
+2. Copy every file into your BritishRailwayDB folder.
+3. Choose Copy and Replace.
+4. Open index.html.
+5. Press Ctrl + F5 in Chrome.
+
+Added to Support Us:
+- Small Supporter — 1911052534
+- Supporter — 1911796513
+- Bronze Supporter — 1912078507
+- Silver Supporter — 1910110616
+- Gold Supporter — 1912090497
+- Ultimate Supporter — 1908224694
+
+Each card opens the matching Roblox gamepass page.
+Prices are shown on Roblox, so the website does not display an incorrect price.
