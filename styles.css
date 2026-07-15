@@ -907,3 +907,29 @@ section { margin-bottom: 28px; }
     .account-page-heading h2 { font-size: clamp(28px, 10vw, 42px); }
     .detail-image { min-height: 240px; }
 }
+/* Keep dropdown menu above the whole website */
+.site-header {
+    z-index: 9999;
+    overflow: visible;
+}
+
+.header-inner,
+.top-nav,
+.page-menu {
+    overflow: visible;
+}
+
+.page-menu {
+    position: relative;
+    z-index: 10000;
+}
+
+.page-menu-panel {
+    z-index: 10001;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+}
+
+main {
+    z-index: 1;
+}
