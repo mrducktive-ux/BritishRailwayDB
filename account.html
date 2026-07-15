@@ -711,13 +711,13 @@
     }
 
 
-    function renderAvatar(user) {
-        var firstLetter =
-            (
-                user.display_name ||
-                user.discord_username ||
-                "B"
-            ).charAt(0).toUpperCase();
+    var avatarName =
+    user.discord_username ||
+    user.display_name ||
+    "B";
+
+var firstLetter =
+    Array.from(avatarName)[0].toUpperCase();
 
         avatarFallback.textContent =
             firstLetter;
