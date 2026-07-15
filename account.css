@@ -1,0 +1,547 @@
+/* BRDB account page */
+.account-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.account-page-heading h2 {
+    margin: 7px 0 9px;
+    font-size: clamp(38px, 7vw, 58px);
+    line-height: 1;
+}
+
+.account-page-heading p {
+    margin: 0;
+    max-width: 720px;
+    color: #afbeca;
+    line-height: 1.6;
+}
+
+.account-api-status {
+    flex: 0 0 auto;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #c6d2dc;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.account-api-status.online {
+    color: #91efb7;
+    background: rgba(71,209,126,0.1);
+    border-color: rgba(71,209,126,0.28);
+}
+
+.account-api-status.offline {
+    color: #ffb2b2;
+    background: rgba(255,100,100,0.09);
+    border-color: rgba(255,100,100,0.25);
+}
+
+.account-message {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px 17px;
+    border-radius: 14px;
+    line-height: 1.55;
+}
+
+.account-message.visible {
+    display: block;
+}
+
+.account-message.success {
+    background: rgba(71,209,126,0.1);
+    border: 1px solid rgba(71,209,126,0.3);
+    color: #b9f5d0;
+}
+
+.account-message.error {
+    background: rgba(255,100,100,0.09);
+    border: 1px solid rgba(255,100,100,0.28);
+    color: #ffc2c2;
+}
+
+.account-message.info {
+    background: rgba(51,174,245,0.09);
+    border: 1px solid rgba(51,174,245,0.26);
+    color: #c6e9ff;
+}
+
+.account-loading,
+.account-login-card,
+.account-profile-card,
+.account-editor-card,
+.account-support-card,
+.account-privacy-card,
+.account-info-card,
+.account-stat-card {
+    background: linear-gradient(180deg, rgba(31,44,57,0.98), rgba(21,30,40,0.98));
+    border: 1px solid #344555;
+    border-radius: 20px;
+    box-shadow: 0 18px 46px rgba(0,0,0,0.23);
+}
+
+.account-loading {
+    min-height: 300px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.account-loading h3 {
+    margin: 18px 0 5px;
+}
+
+.account-loading p {
+    margin: 0;
+    color: #aebdca;
+}
+
+.account-spinner {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.12);
+    border-top-color: #f4c400;
+    animation: brdb-account-spin 0.9s linear infinite;
+}
+
+@keyframes brdb-account-spin {
+    to { transform: rotate(360deg); }
+}
+
+.account-login-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 22px;
+    align-items: center;
+    padding: 32px;
+}
+
+.discord-mark {
+    width: 84px;
+    height: 84px;
+    border-radius: 24px;
+    display: grid;
+    place-items: center;
+    font-size: 42px;
+    font-weight: 900;
+    background: #5865f2;
+    color: white;
+    box-shadow: 0 14px 34px rgba(88,101,242,0.28);
+}
+
+.account-login-card h2 {
+    margin: 7px 0 10px;
+    font-size: 34px;
+}
+
+.account-login-card p {
+    color: #b7c4cf;
+    line-height: 1.6;
+    max-width: 720px;
+}
+
+.account-discord-button {
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 14px 19px;
+    border-radius: 12px;
+    background: #5865f2;
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+    border: 2px solid #5865f2;
+}
+
+.account-discord-button:hover,
+.account-discord-button:focus {
+    background: transparent;
+    color: #aeb6ff;
+    outline: none;
+}
+
+.account-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.account-info-card {
+    padding: 22px;
+}
+
+.account-info-card h3 {
+    margin: 0 0 8px;
+}
+
+.account-info-card p {
+    margin: 0;
+    color: #aebdca;
+    line-height: 1.6;
+}
+
+.account-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+}
+
+.account-avatar-wrap {
+    width: 90px;
+    height: 90px;
+    flex: 0 0 90px;
+    position: relative;
+}
+
+.account-avatar,
+.account-avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+}
+
+.account-avatar {
+    display: none;
+    object-fit: cover;
+    background: #111820;
+}
+
+.account-avatar.visible {
+    display: block;
+}
+
+.account-avatar-fallback {
+    display: grid;
+    place-items: center;
+    background: #f4c400;
+    color: #111820;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+.account-avatar-fallback.hidden {
+    display: none;
+}
+
+.account-profile-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.account-profile-main h2 {
+    margin: 5px 0 4px;
+    font-size: clamp(28px, 5vw, 40px);
+    overflow-wrap: anywhere;
+}
+
+.account-username {
+    margin: 0;
+    color: #aebdca;
+    font-weight: bold;
+}
+
+.account-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 13px;
+}
+
+.account-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #dce6ee;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.account-badge.admin {
+    background: rgba(187,142,255,0.13);
+    border-color: rgba(187,142,255,0.3);
+    color: #dfcaff;
+}
+
+.account-badge.supporter {
+    background: rgba(244,196,0,0.13);
+    border-color: rgba(244,196,0,0.3);
+    color: #ffdc55;
+}
+
+.account-logout-button {
+    flex: 0 0 auto;
+    border: 1px solid rgba(255,100,100,0.28);
+    background: rgba(255,100,100,0.09);
+    color: #ffc0c0;
+    border-radius: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.account-logout-button:hover,
+.account-logout-button:focus {
+    background: rgba(255,100,100,0.18);
+    outline: none;
+}
+
+.account-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 16px;
+    margin: 18px 0;
+}
+
+.account-stat-card {
+    padding: 19px;
+}
+
+.account-stat-card span {
+    display: block;
+    color: #9fb0bf;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.account-stat-card strong {
+    color: #f4c400;
+    font-size: 18px;
+}
+
+.account-content-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.7fr) minmax(280px,0.7fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.account-editor-card,
+.account-support-card {
+    padding: 24px;
+}
+
+.account-section-title {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.account-section-title h2,
+.account-support-card h2 {
+    margin: 6px 0 0;
+}
+
+.account-unsaved {
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: #94efb9;
+    background: rgba(71,209,126,0.09);
+    border: 1px solid rgba(71,209,126,0.22);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.account-unsaved.changed {
+    color: #ffdc55;
+    background: rgba(244,196,0,0.1);
+    border-color: rgba(244,196,0,0.25);
+}
+
+.account-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 16px;
+}
+
+.account-field {
+    display: grid;
+    gap: 7px;
+}
+
+.account-field-full {
+    grid-column: 1 / -1;
+}
+
+.account-field label {
+    font-weight: bold;
+    color: #e2e9ef;
+}
+
+.account-field input,
+.account-field textarea {
+    width: 100%;
+    border: 1px solid #435668;
+    border-radius: 12px;
+    background: #0e161e;
+    color: white;
+    padding: 12px 13px;
+    font: inherit;
+}
+
+.account-field input:focus,
+.account-field textarea:focus {
+    outline: 3px solid rgba(244,196,0,0.18);
+    border-color: #f4c400;
+}
+
+.account-field textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.account-field small,
+.account-label-row span {
+    color: #8fa1b0;
+    font-size: 12px;
+}
+
+.account-label-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.account-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin-top: 20px;
+}
+
+.account-actions button,
+.account-verify-button {
+    cursor: pointer;
+    font: inherit;
+}
+
+.account-actions button:disabled,
+.account-verify-button:disabled,
+.account-logout-button:disabled {
+    opacity: 0.62;
+    cursor: wait;
+}
+
+.account-support-card p {
+    color: #aebdca;
+    line-height: 1.6;
+}
+
+.account-current-tier {
+    margin: 18px 0;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.account-current-tier span {
+    display: block;
+    color: #9fb0bf;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.account-current-tier strong {
+    color: #f4c400;
+    font-size: 22px;
+}
+
+.account-verify-button {
+    width: 100%;
+    padding: 13px 15px;
+    border: 2px solid #f4c400;
+    border-radius: 12px;
+    background: #f4c400;
+    color: #111820;
+    font-weight: 900;
+}
+
+.account-verify-button:hover,
+.account-verify-button:focus {
+    background: transparent;
+    color: #f4c400;
+    outline: none;
+}
+
+.account-small-note {
+    font-size: 13px;
+}
+
+.account-support-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #ffd84a;
+    font-weight: bold;
+}
+
+.account-privacy-card {
+    margin-top: 18px;
+    padding: 20px 22px;
+    border-left: 5px solid #f4c400;
+}
+
+.account-privacy-card h3 {
+    margin: 0 0 7px;
+}
+
+.account-privacy-card p {
+    margin: 0;
+    color: #aebdca;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .account-page-heading,
+    .account-profile-card {
+        align-items: flex-start;
+    }
+
+    .account-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    .account-page-heading,
+    .account-profile-card {
+        flex-direction: column;
+    }
+
+    .account-login-card {
+        grid-template-columns: 1fr;
+    }
+
+    .account-info-grid,
+    .account-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-field-full {
+        grid-column: auto;
+    }
+
+    .account-logout-button {
+        width: 100%;
+    }
+}
