@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    var API_BASE = "https://brdb-accounts.mrducktive.workers.dev";
+    var API_BASE = "https://brbd-accounts.mrducktive.workers.dev";
 
     var loadingPanel = document.getElementById("accountLoading");
     var signedOutPanel = document.getElementById("accountSignedOut");
