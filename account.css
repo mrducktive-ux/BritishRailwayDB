@@ -1,3 +1,7 @@
+[hidden] {
+    display: none !important;
+}
+
 /* BRDB account page */
 .account-page-heading {
     display: flex;
