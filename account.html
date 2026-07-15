@@ -711,42 +711,42 @@
     }
 
 
+    function renderAvatar(user) {
     var avatarName =
-    user.discord_username ||
-    user.display_name ||
-    "B";
+        user.discord_username ||
+        user.display_name ||
+        "B";
 
-var firstLetter =
-    Array.from(avatarName)[0].toUpperCase();
+    var firstLetter =
+        Array.from(avatarName)[0].toUpperCase();
 
-        avatarFallback.textContent =
-            firstLetter;
+    avatarFallback.textContent =
+        firstLetter;
 
-        if (user.avatar_url) {
-            avatar.src = user.avatar_url;
+    if (user.avatar_url) {
+        avatar.src = user.avatar_url;
 
-            avatar.className =
-                "account-avatar visible";
+        avatar.className =
+            "account-avatar visible";
 
-            avatarFallback.className =
-                "account-avatar-fallback hidden";
+        avatarFallback.className =
+            "account-avatar-fallback hidden";
 
-            avatar.onerror = function () {
-                avatar.className =
-                    "account-avatar";
-
-                avatarFallback.className =
-                    "account-avatar-fallback";
-            };
-        } else {
+        avatar.onerror = function () {
             avatar.className =
                 "account-avatar";
 
             avatarFallback.className =
                 "account-avatar-fallback";
-        }
-    }
+        };
+    } else {
+        avatar.className =
+            "account-avatar";
 
+        avatarFallback.className =
+            "account-avatar-fallback";
+    }
+}
 
     function renderBadges(user) {
         badges.innerHTML = "";
