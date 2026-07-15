@@ -2,302 +2,1141 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>My Account | British Railway DB</title>
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="account.css">
 </head>
+
 <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <div class="brand">
-                <div class="brand-mark brand-logo">
-                    <img src="brdb-logo.png" alt="British Railway DB logo">
-                </div>
-                <div>
-                    <h1>British Railway DB</h1>
-                    <p>Your BRDB account</p>
-                </div>
+
+<header class="site-header">
+    <div class="header-inner">
+
+        <div class="brand">
+            <div class="brand-mark brand-logo">
+                <img src="brdb-logo.png"
+                     alt="British Railway DB logo">
             </div>
 
-            <nav class="top-nav" aria-label="Main navigation">
-                <details class="page-menu">
-                    <summary>Pages <span aria-hidden="true">▼</span></summary>
-                    <div class="page-menu-panel">
-                        <a href="index.html">Home</a>
-                        <a href="trains.html">Rolling Stock</a>
-                        <a href="routes.html">Routes</a>
-                        <a href="weekly.html">Weekly Items</a>
-                        <a href="about.html">About Us</a>
-                        <a href="support.html">Support Us</a>
-                        <a href="account.html" class="current" aria-current="page">My Account</a>
-                    </div>
-                </details>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="account-page-heading">
             <div>
-                <span class="eyebrow">British Railway DB accounts</span>
-                <h2>My Account</h2>
-                <p>
-                    Sign in using Discord, personalise your profile and verify your
-                    Roblox supporter tier.
-                </p>
+                <h1>British Railway DB</h1>
+                <p>Your BRDB account</p>
             </div>
-            <div class="account-api-status" id="accountApiStatus">Connecting…</div>
-        </section>
+        </div>
 
-        <div class="account-message" id="accountMessage" role="status" aria-live="polite"></div>
+        <nav class="top-nav" aria-label="Main navigation">
+            <details class="page-menu">
 
-        <section class="account-loading" id="accountLoading">
-            <div class="account-spinner" aria-hidden="true"></div>
-            <h3>Loading your account…</h3>
-            <p>Connecting securely to the BRDB Accounts API.</p>
-        </section>
+                <summary>
+                    Pages
+                    <span aria-hidden="true">▼</span>
+                </summary>
 
-        <section class="account-signed-out" id="accountSignedOut" hidden>
-            <div class="account-login-card">
-                <div class="discord-mark" aria-hidden="true">D</div>
-                <div>
-                    <span class="eyebrow">Not signed in</span>
-                    <h2>Continue with Discord</h2>
-                    <p>
-                        BRDB uses Discord to identify your account. Your Discord password
-                        is never given to British Railway DB.
-                    </p>
-                    <a class="account-discord-button"
-                       href="https://brdb-accounts.mrducktive.workers.dev/auth/discord"
-                       id="discordLoginButton">
-                        Sign in with Discord
-                    </a>
-                </div>
-            </div>
-
-            <div class="account-info-grid">
-                <article class="account-info-card">
-                    <h3>What your account saves</h3>
-                    <p>
-                        Your display name, Discord avatar, Roblox username, bio,
-                        favourite train, favourite route and verified supporter tier.
-                    </p>
-                </article>
-
-                <article class="account-info-card">
-                    <h3>Security</h3>
-                    <p>
-                        BRDB does not create or store a password. Login is handled through
-                        Discord OAuth and a secure BRDB session.
-                    </p>
-                </article>
-            </div>
-        </section>
-
-        <section class="account-dashboard" id="accountDashboard" hidden>
-            <article class="account-profile-card">
-                <div class="account-avatar-wrap">
-                    <img id="accountAvatar" class="account-avatar" alt="">
-                    <div id="accountAvatarFallback" class="account-avatar-fallback" aria-hidden="true">B</div>
-                </div>
-
-                <div class="account-profile-main">
-                    <span class="eyebrow">Signed in</span>
-                    <h2 id="accountDisplayName">BRDB User</h2>
-                    <p class="account-username" id="accountDiscordUsername">@username</p>
-
-                    <div class="account-badges" id="accountBadges"></div>
-                </div>
-
-                <button class="account-logout-button" type="button" id="logoutButton">
-                    Sign out
-                </button>
-            </article>
-
-            <div class="account-stats-grid">
-                <article class="account-stat-card">
-                    <span>Member since</span>
-                    <strong id="accountCreatedAt">—</strong>
-                </article>
-                <article class="account-stat-card">
-                    <span>Last login</span>
-                    <strong id="accountLastLogin">—</strong>
-                </article>
-                <article class="account-stat-card">
-                    <span>Supporter tier</span>
-                    <strong id="accountSupporterTier">None</strong>
-                </article>
-            </div>
-
-            <div class="account-content-grid">
-                <section class="account-editor-card">
-                    <div class="account-section-title">
-                        <div>
-                            <span class="eyebrow">Profile settings</span>
-                            <h2>Edit your profile</h2>
-                        </div>
-                        <span class="account-unsaved" id="unsavedIndicator">Saved</span>
-                    </div>
-
-                    <form id="profileForm">
-                        <div class="account-form-grid">
-                            <div class="account-field">
-                                <label for="robloxUsername">Roblox username</label>
-                                <input
-                                    id="robloxUsername"
-                                    name="roblox_username"
-                                    type="text"
-                                    maxlength="20"
-                                    autocomplete="off"
-                                    spellcheck="false"
-                                    placeholder="Example: MrDucktive"
-                                >
-                                <small>Use the account username, not the display name.</small>
-                            </div>
-
-                            <div class="account-field">
-                                <label for="favouriteTrain">Favourite train</label>
-                                <input
-                                    id="favouriteTrain"
-                                    name="favourite_train"
-                                    type="text"
-                                    maxlength="80"
-                                    list="trainChoices"
-                                    placeholder="Example: Class 142"
-                                >
-                                <datalist id="trainChoices">
-                                    <option value="Class 47">
-                                    <option value="Class 86">
-                                    <option value="Class 90">
-                                    <option value="Class 142">
-                                    <option value="Class 150">
-                                    <option value="Class 153">
-                                    <option value="Class 156">
-                                    <option value="Class 158">
-                                    <option value="Class 159">
-                                    <option value="Class 170">
-                                    <option value="Class 171">
-                                    <option value="Class 180">
-                                    <option value="Class 220">
-                                    <option value="Class 221">
-                                    <option value="Class 230">
-                                    <option value="Class 231">
-                                    <option value="Class 321">
-                                    <option value="Class 322">
-                                    <option value="Class 350">
-                                    <option value="Class 745">
-                                    <option value="Class 755">
-                                    <option value="Class 756">
-                                    <option value="Class 800">
-                                    <option value="Class 801">
-                                    <option value="Class 802">
-                                    <option value="Class 803">
-                                    <option value="Class 805">
-                                    <option value="Class 807">
-                                    <option value="Mark 2 coaches">
-                                    <option value="Mark 3 coaches">
-                                </datalist>
-                            </div>
-
-                            <div class="account-field">
-                                <label for="favouriteRoute">Favourite route</label>
-                                <input
-                                    id="favouriteRoute"
-                                    name="favourite_route"
-                                    type="text"
-                                    maxlength="80"
-                                    list="routeChoices"
-                                    placeholder="Example: Norrington Mainline"
-                                >
-                                <datalist id="routeChoices">
-                                    <option value="Default Free Route">
-                                    <option value="Ashdean Branch">
-                                    <option value="Fayre Branchline">
-                                    <option value="Fleetwood and Avonhill">
-                                    <option value="Mill Bridge Mainline">
-                                    <option value="Brynmouth Extension">
-                                    <option value="Newhurst Branch">
-                                    <option value="Norrington Mainline">
-                                    <option value="Cuffley Extension">
-                                    <option value="Stonebrook Branch">
-                                    <option value="Victoria Harbour">
-                                </datalist>
-                            </div>
-
-                            <div class="account-field account-field-full">
-                                <div class="account-label-row">
-                                    <label for="profileBio">Bio</label>
-                                    <span id="bioCounter">0 / 300</span>
-                                </div>
-                                <textarea
-                                    id="profileBio"
-                                    name="bio"
-                                    maxlength="300"
-                                    placeholder="Tell other BRDB users a little about yourself…"
-                                ></textarea>
-                            </div>
-                        </div>
-
-                        <div class="account-actions">
-                            <button class="primary-button" type="submit" id="saveProfileButton">
-                                Save profile
-                            </button>
-                            <button class="secondary-button" type="button" id="resetProfileButton">
-                                Reset changes
-                            </button>
-                        </div>
-                    </form>
-                </section>
-
-                <aside class="account-support-card">
-                    <span class="eyebrow">Roblox support</span>
-                    <h2>Verify supporter status</h2>
-                    <p>
-                        Save your Roblox username first, then check which BRDB support
-                        gamepasses that account owns.
-                    </p>
-
-                    <div class="account-current-tier">
-                        <span>Current verified tier</span>
-                        <strong id="supportCardTier">None</strong>
-                    </div>
-
-                    <button class="account-verify-button" type="button" id="verifySupportButton">
-                        Verify supporter tier
-                    </button>
-
-                    <p class="account-small-note" id="supportCheckedText">
-                        Not checked yet.
-                    </p>
-
-                    <a href="support.html#support-passes" class="account-support-link">
-                        View support passes
-                    </a>
-                </aside>
-            </div>
-
-            <section class="account-privacy-card">
-                <h3>Account privacy</h3>
-                <p>
-                    Your account uses your public Discord profile information. Never send
-                    anybody your Discord token, Roblox cookie, Cloudflare secret or session cookie.
-                </p>
-            </section>
-        </section>
-
-        <footer class="site-footer">
-            <div class="footer-inner">
-                <span>British Railway DB — unofficial fan project</span>
-                <div class="footer-links">
+                <div class="page-menu-panel">
+                    <a href="index.html">Home</a>
+                    <a href="trains.html">Rolling Stock</a>
+                    <a href="routes.html">Routes</a>
+                    <a href="weekly.html">Weekly Items</a>
                     <a href="about.html">About Us</a>
                     <a href="support.html">Support Us</a>
-                </div>
-            </div>
-        </footer>
-    </main>
 
-    <script src="account.js"></script>
-    <script src="site.js"></script>
+                    <a href="account.html"
+                       class="current"
+                       aria-current="page">
+                        My Account
+                    </a>
+                </div>
+
+            </details>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+    <section class="account-page-heading">
+
+        <div>
+            <span class="eyebrow">
+                British Railway DB accounts
+            </span>
+
+            <h2>My Account</h2>
+
+            <p>
+                Sign in using Discord, personalise your profile
+                and verify your Roblox supporter tier.
+            </p>
+        </div>
+
+        <div class="account-api-status"
+             id="accountApiStatus">
+            Connecting…
+        </div>
+
+    </section>
+
+
+    <div class="account-message"
+         id="accountMessage"
+         role="status"
+         aria-live="polite">
+    </div>
+
+
+    <section class="account-loading"
+             id="accountLoading">
+
+        <div class="account-spinner"
+             aria-hidden="true">
+        </div>
+
+        <h3>Loading your account…</h3>
+
+        <p>
+            Connecting securely to the BRDB Accounts API.
+        </p>
+
+    </section>
+
+
+    <section class="account-signed-out"
+             id="accountSignedOut"
+             hidden>
+
+        <div class="account-login-card">
+
+            <div class="discord-mark"
+                 aria-hidden="true">
+                D
+            </div>
+
+            <div>
+
+                <span class="eyebrow">
+                    Not signed in
+                </span>
+
+                <h2>Continue with Discord</h2>
+
+                <p>
+                    BRDB uses Discord to identify your account.
+                    Your Discord password is never given to
+                    British Railway DB.
+                </p>
+
+                <a class="account-discord-button"
+                   href="https://brbd-accounts.mrducktive.workers.dev/auth/discord">
+                    Sign in with Discord
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="account-info-grid">
+
+            <article class="account-info-card">
+
+                <h3>What your account saves</h3>
+
+                <p>
+                    Your display name, Discord avatar, Roblox
+                    username, bio, favourite train, favourite
+                    route and supporter tier.
+                </p>
+
+            </article>
+
+
+            <article class="account-info-card">
+
+                <h3>Security</h3>
+
+                <p>
+                    BRDB does not create or store a password.
+                    Login is handled securely through Discord.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <section class="account-dashboard"
+             id="accountDashboard"
+             hidden>
+
+
+        <article class="account-profile-card">
+
+            <div class="account-avatar-wrap">
+
+                <img id="accountAvatar"
+                     class="account-avatar"
+                     alt="Discord avatar">
+
+                <div id="accountAvatarFallback"
+                     class="account-avatar-fallback"
+                     aria-hidden="true">
+                    B
+                </div>
+
+            </div>
+
+
+            <div class="account-profile-main">
+
+                <span class="eyebrow">
+                    Signed in
+                </span>
+
+                <h2 id="accountDisplayName">
+                    BRDB User
+                </h2>
+
+                <p class="account-username"
+                   id="accountDiscordUsername">
+                    @username
+                </p>
+
+                <div class="account-badges"
+                     id="accountBadges">
+                </div>
+
+            </div>
+
+
+            <button class="account-logout-button"
+                    type="button"
+                    id="logoutButton">
+                Sign out
+            </button>
+
+        </article>
+
+
+        <div class="account-stats-grid">
+
+            <article class="account-stat-card">
+
+                <span>Member since</span>
+
+                <strong id="accountCreatedAt">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="account-stat-card">
+
+                <span>Last login</span>
+
+                <strong id="accountLastLogin">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="account-stat-card">
+
+                <span>Supporter tier</span>
+
+                <strong id="accountSupporterTier">
+                    None
+                </strong>
+
+            </article>
+
+        </div>
+
+
+        <div class="account-content-grid">
+
+
+            <section class="account-editor-card">
+
+                <div class="account-section-title">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Profile settings
+                        </span>
+
+                        <h2>Edit your profile</h2>
+
+                    </div>
+
+                    <span class="account-unsaved"
+                          id="unsavedIndicator">
+                        Saved
+                    </span>
+
+                </div>
+
+
+                <form id="profileForm">
+
+                    <div class="account-form-grid">
+
+
+                        <div class="account-field">
+
+                            <label for="robloxUsername">
+                                Roblox username
+                            </label>
+
+                            <input id="robloxUsername"
+                                   name="roblox_username"
+                                   type="text"
+                                   maxlength="20"
+                                   autocomplete="off"
+                                   spellcheck="false"
+                                   placeholder="Example: MrDucktive">
+
+                            <small>
+                                Use your Roblox username,
+                                not your display name.
+                            </small>
+
+                        </div>
+
+
+                        <div class="account-field">
+
+                            <label for="favouriteTrain">
+                                Favourite train
+                            </label>
+
+                            <input id="favouriteTrain"
+                                   name="favourite_train"
+                                   type="text"
+                                   maxlength="80"
+                                   placeholder="Example: Class 142">
+
+                        </div>
+
+
+                        <div class="account-field">
+
+                            <label for="favouriteRoute">
+                                Favourite route
+                            </label>
+
+                            <input id="favouriteRoute"
+                                   name="favourite_route"
+                                   type="text"
+                                   maxlength="80"
+                                   placeholder="Example: Norrington Mainline">
+
+                        </div>
+
+
+                        <div class="account-field account-field-full">
+
+                            <div class="account-label-row">
+
+                                <label for="profileBio">
+                                    Bio
+                                </label>
+
+                                <span id="bioCounter">
+                                    0 / 300
+                                </span>
+
+                            </div>
+
+                            <textarea id="profileBio"
+                                      name="bio"
+                                      maxlength="300"
+                                      placeholder="Tell other BRDB users a little about yourself…"></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="account-actions">
+
+                        <button class="primary-button"
+                                type="submit"
+                                id="saveProfileButton">
+                            Save profile
+                        </button>
+
+                        <button class="secondary-button"
+                                type="button"
+                                id="resetProfileButton">
+                            Reset changes
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <aside class="account-support-card">
+
+                <span class="eyebrow">
+                    Roblox support
+                </span>
+
+                <h2>Verify supporter status</h2>
+
+                <p>
+                    Save your Roblox username first, then check
+                    which BRDB support gamepasses that account owns.
+                </p>
+
+
+                <div class="account-current-tier">
+
+                    <span>
+                        Current verified tier
+                    </span>
+
+                    <strong id="supportCardTier">
+                        None
+                    </strong>
+
+                </div>
+
+
+                <button class="account-verify-button"
+                        type="button"
+                        id="verifySupportButton">
+                    Verify supporter tier
+                </button>
+
+
+                <p class="account-small-note"
+                   id="supportCheckedText">
+                    Not checked yet.
+                </p>
+
+
+                <a href="support.html"
+                   class="account-support-link">
+                    View support passes
+                </a>
+
+            </aside>
+
+        </div>
+
+
+        <section class="account-privacy-card">
+
+            <h3>Account privacy</h3>
+
+            <p>
+                Never send anybody your Discord token,
+                Roblox cookie, Cloudflare secret or
+                BRDB session cookie.
+            </p>
+
+        </section>
+
+    </section>
+
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <span>
+                British Railway DB — unofficial fan project
+            </span>
+
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="support.html">Support Us</a>
+            </div>
+
+        </div>
+
+    </footer>
+
+</main>
+
+
+<script>
+(function () {
+    "use strict";
+
+    var API_BASE =
+        "https://brbd-accounts.mrducktive.workers.dev";
+
+    var loading =
+        document.getElementById("accountLoading");
+
+    var signedOut =
+        document.getElementById("accountSignedOut");
+
+    var dashboard =
+        document.getElementById("accountDashboard");
+
+    var messageBox =
+        document.getElementById("accountMessage");
+
+    var apiStatus =
+        document.getElementById("accountApiStatus");
+
+    var displayName =
+        document.getElementById("accountDisplayName");
+
+    var discordUsername =
+        document.getElementById("accountDiscordUsername");
+
+    var avatar =
+        document.getElementById("accountAvatar");
+
+    var avatarFallback =
+        document.getElementById("accountAvatarFallback");
+
+    var badges =
+        document.getElementById("accountBadges");
+
+    var createdAt =
+        document.getElementById("accountCreatedAt");
+
+    var lastLogin =
+        document.getElementById("accountLastLogin");
+
+    var supporterTier =
+        document.getElementById("accountSupporterTier");
+
+    var supportCardTier =
+        document.getElementById("supportCardTier");
+
+    var supportCheckedText =
+        document.getElementById("supportCheckedText");
+
+    var form =
+        document.getElementById("profileForm");
+
+    var robloxUsername =
+        document.getElementById("robloxUsername");
+
+    var favouriteTrain =
+        document.getElementById("favouriteTrain");
+
+    var favouriteRoute =
+        document.getElementById("favouriteRoute");
+
+    var bio =
+        document.getElementById("profileBio");
+
+    var bioCounter =
+        document.getElementById("bioCounter");
+
+    var saveButton =
+        document.getElementById("saveProfileButton");
+
+    var resetButton =
+        document.getElementById("resetProfileButton");
+
+    var verifyButton =
+        document.getElementById("verifySupportButton");
+
+    var logoutButton =
+        document.getElementById("logoutButton");
+
+    var unsavedIndicator =
+        document.getElementById("unsavedIndicator");
+
+    var savedUser = null;
+
+
+    function showMessage(type, text) {
+        messageBox.className =
+            "account-message visible " + type;
+
+        messageBox.textContent = text;
+    }
+
+
+    function clearMessage() {
+        messageBox.className = "account-message";
+        messageBox.textContent = "";
+    }
+
+
+    function setApiStatus(online) {
+        apiStatus.className =
+            "account-api-status " +
+            (online ? "online" : "offline");
+
+        apiStatus.textContent =
+            online
+                ? "Accounts API online"
+                : "Accounts API unavailable";
+    }
+
+
+    function request(path, options) {
+        var settings = options || {};
+
+        settings.credentials = "include";
+        settings.cache = "no-store";
+
+        return fetch(API_BASE + path, settings)
+            .then(function (response) {
+
+                return response.text()
+                    .then(function (text) {
+
+                        var data = {};
+
+                        try {
+                            data = text
+                                ? JSON.parse(text)
+                                : {};
+                        } catch (error) {
+                            throw new Error(
+                                "Invalid response from the Accounts API."
+                            );
+                        }
+
+                        if (!response.ok ||
+                            data.ok === false) {
+
+                            var requestError =
+                                new Error(
+                                    data.error ||
+                                    data.details ||
+                                    "Request failed."
+                                );
+
+                            requestError.status =
+                                response.status;
+
+                            throw requestError;
+                        }
+
+                        return data;
+                    });
+            });
+    }
+
+
+    function formatDate(value) {
+        if (!value) {
+            return "—";
+        }
+
+        var date =
+            new Date(
+                String(value).replace(" ", "T") + "Z"
+            );
+
+        if (isNaN(date.getTime())) {
+            return value;
+        }
+
+        return date.toLocaleDateString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+
+    function formatDateTime(value) {
+        if (!value) {
+            return "Not checked yet";
+        }
+
+        var date =
+            new Date(
+                String(value).replace(" ", "T") + "Z"
+            );
+
+        if (isNaN(date.getTime())) {
+            return value;
+        }
+
+        return date.toLocaleString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+    }
+
+
+    function updateCounter() {
+        bioCounter.textContent =
+            bio.value.length + " / 300";
+    }
+
+
+    function markChanged() {
+        unsavedIndicator.textContent =
+            "Unsaved changes";
+
+        unsavedIndicator.className =
+            "account-unsaved changed";
+    }
+
+
+    function markSaved() {
+        unsavedIndicator.textContent =
+            "Saved";
+
+        unsavedIndicator.className =
+            "account-unsaved";
+    }
+
+
+    function renderAvatar(user) {
+        var firstLetter =
+            (
+                user.display_name ||
+                user.discord_username ||
+                "B"
+            ).charAt(0).toUpperCase();
+
+        avatarFallback.textContent =
+            firstLetter;
+
+        if (user.avatar_url) {
+            avatar.src = user.avatar_url;
+
+            avatar.className =
+                "account-avatar visible";
+
+            avatarFallback.className =
+                "account-avatar-fallback hidden";
+
+            avatar.onerror = function () {
+                avatar.className =
+                    "account-avatar";
+
+                avatarFallback.className =
+                    "account-avatar-fallback";
+            };
+        } else {
+            avatar.className =
+                "account-avatar";
+
+            avatarFallback.className =
+                "account-avatar-fallback";
+        }
+    }
+
+
+    function renderBadges(user) {
+        badges.innerHTML = "";
+
+        var discordBadge =
+            document.createElement("span");
+
+        discordBadge.className =
+            "account-badge";
+
+        discordBadge.textContent =
+            "Discord account";
+
+        badges.appendChild(discordBadge);
+
+
+        if (user.supporter_tier &&
+            user.supporter_tier !== "None") {
+
+            var supporterBadge =
+                document.createElement("span");
+
+            supporterBadge.className =
+                "account-badge supporter";
+
+            supporterBadge.textContent =
+                user.supporter_tier;
+
+            badges.appendChild(supporterBadge);
+        }
+
+
+        if (Number(user.is_admin) === 1) {
+            var adminBadge =
+                document.createElement("span");
+
+            adminBadge.className =
+                "account-badge admin";
+
+            adminBadge.textContent =
+                "BRDB Admin";
+
+            badges.appendChild(adminBadge);
+        }
+    }
+
+
+    function fillForm(user) {
+        robloxUsername.value =
+            user.roblox_username || "";
+
+        favouriteTrain.value =
+            user.favourite_train || "";
+
+        favouriteRoute.value =
+            user.favourite_route || "";
+
+        bio.value =
+            user.bio || "";
+
+        updateCounter();
+        markSaved();
+    }
+
+
+    function renderUser(user) {
+        savedUser = user;
+
+        loading.hidden = true;
+        signedOut.hidden = true;
+        dashboard.hidden = false;
+
+        displayName.textContent =
+            user.display_name ||
+            user.discord_username ||
+            "BRDB User";
+
+        discordUsername.textContent =
+            "@" +
+            (
+                user.discord_username ||
+                "unknown"
+            );
+
+        createdAt.textContent =
+            formatDate(user.created_at);
+
+        lastLogin.textContent =
+            formatDateTime(user.last_login_at);
+
+        var tier =
+            user.supporter_tier || "None";
+
+        supporterTier.textContent = tier;
+        supportCardTier.textContent = tier;
+
+        if (user.supporter_checked_at) {
+            supportCheckedText.textContent =
+                "Last checked: " +
+                formatDateTime(
+                    user.supporter_checked_at
+                );
+        } else {
+            supportCheckedText.textContent =
+                "Not checked yet.";
+        }
+
+        verifyButton.disabled =
+            !user.roblox_username;
+
+        renderAvatar(user);
+        renderBadges(user);
+        fillForm(user);
+    }
+
+
+    function showSignedOut() {
+        loading.hidden = true;
+        dashboard.hidden = true;
+        signedOut.hidden = false;
+
+        setApiStatus(true);
+    }
+
+
+    function showLoginMessage() {
+        var params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        var login =
+            params.get("login");
+
+        if (login === "success") {
+            showMessage(
+                "success",
+                "Discord login successful. Welcome to BRDB!"
+            );
+        }
+
+        if (login === "discord_denied") {
+            showMessage(
+                "info",
+                "Discord login was cancelled."
+            );
+        }
+
+        if (login === "banned") {
+            showMessage(
+                "error",
+                "This BRDB account is banned."
+            );
+        }
+
+        if (login &&
+            window.history &&
+            window.history.replaceState) {
+
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+    }
+
+
+    function loadAccount() {
+        clearMessage();
+
+        request("/api/me")
+            .then(function (data) {
+                setApiStatus(true);
+                renderUser(data.user);
+                showLoginMessage();
+            })
+            .catch(function (error) {
+
+                if (error.status === 401) {
+                    showSignedOut();
+                    showLoginMessage();
+                    return;
+                }
+
+                loading.hidden = true;
+                signedOut.hidden = false;
+
+                setApiStatus(false);
+
+                showMessage(
+                    "error",
+                    error.message ||
+                    "Failed to connect to the Accounts API."
+                );
+            });
+    }
+
+
+    form.addEventListener(
+        "input",
+        function () {
+            updateCounter();
+            markChanged();
+        }
+    );
+
+
+    resetButton.addEventListener(
+        "click",
+        function () {
+            if (savedUser) {
+                fillForm(savedUser);
+                clearMessage();
+            }
+        }
+    );
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+            event.preventDefault();
+
+            clearMessage();
+
+            saveButton.disabled = true;
+            saveButton.textContent = "Saving…";
+
+            request(
+                "/api/profile",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        roblox_username:
+                            robloxUsername.value,
+
+                        bio:
+                            bio.value,
+
+                        favourite_train:
+                            favouriteTrain.value,
+
+                        favourite_route:
+                            favouriteRoute.value
+                    })
+                }
+            )
+            .then(function (data) {
+                renderUser(data.user);
+
+                showMessage(
+                    "success",
+                    "Your BRDB profile has been saved."
+                );
+            })
+            .catch(function (error) {
+                showMessage(
+                    "error",
+                    error.message ||
+                    "Your profile could not be saved."
+                );
+            })
+            .then(function () {
+                saveButton.disabled = false;
+                saveButton.textContent =
+                    "Save profile";
+            });
+        }
+    );
+
+
+    verifyButton.addEventListener(
+        "click",
+        function () {
+            clearMessage();
+
+            if (!robloxUsername.value.trim()) {
+                showMessage(
+                    "error",
+                    "Save a Roblox username before verifying."
+                );
+
+                return;
+            }
+
+            verifyButton.disabled = true;
+            verifyButton.textContent =
+                "Checking Roblox…";
+
+            request(
+                "/api/verify-supporter",
+                {
+                    method: "POST"
+                }
+            )
+            .then(function (data) {
+                renderUser(data.user);
+
+                if (data.supporter &&
+                    data.highestTier) {
+
+                    showMessage(
+                        "success",
+                        "Verified as " +
+                        data.highestTier.name +
+                        "."
+                    );
+
+                } else {
+
+                    showMessage(
+                        "info",
+                        "No BRDB support pass was found."
+                    );
+                }
+            })
+            .catch(function (error) {
+                showMessage(
+                    "error",
+                    error.message ||
+                    "Supporter verification failed."
+                );
+            })
+            .then(function () {
+                verifyButton.textContent =
+                    "Verify supporter tier";
+
+                verifyButton.disabled =
+                    !robloxUsername.value.trim();
+            });
+        }
+    );
+
+
+    logoutButton.addEventListener(
+        "click",
+        function () {
+            clearMessage();
+
+            logoutButton.disabled = true;
+            logoutButton.textContent =
+                "Signing out…";
+
+            request(
+                "/auth/logout",
+                {
+                    method: "POST"
+                }
+            )
+            .then(function () {
+                savedUser = null;
+
+                dashboard.hidden = true;
+                signedOut.hidden = false;
+
+                showMessage(
+                    "success",
+                    "You have been signed out."
+                );
+            })
+            .catch(function (error) {
+                showMessage(
+                    "error",
+                    error.message ||
+                    "Sign out failed."
+                );
+            })
+            .then(function () {
+                logoutButton.disabled = false;
+                logoutButton.textContent =
+                    "Sign out";
+            });
+        }
+    );
+
+
+    loadAccount();
+
+}());
+</script>
+
+
+<script src="site.js"></script>
+
 </body>
 </html>
