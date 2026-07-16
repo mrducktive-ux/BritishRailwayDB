@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Submit a Photo | British Railway DB</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="community.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark brand-logo">
+                    <img
+                        src="brdb-logo.png"
+                        alt="British Railway DB logo"
+                    >
+                </div>
+
+                <div>
+                    <h1>British Railway DB</h1>
+                    <p>Unofficial Roblox British Railway database</p>
+                </div>
+            </div>
+
+            <nav class="top-nav" aria-label="Main navigation">
+                <details class="page-menu">
+                    <summary>
+                        Pages
+                        <span aria-hidden="true">▼</span>
+                    </summary>
+
+                    <div class="page-menu-panel">
+                        <a href="index.html">Home</a>
+                        <a href="trains.html">Rolling Stock</a>
+                        <a href="routes.html">Routes</a>
+                        <a href="weekly.html">Weekly Items</a>
+                        <a href="community.html">Community Photos</a>
+                        <a href="submit-photo.html" class="current">
+                            Submit a Photo
+                        </a>
+                        <a href="about.html">About Us</a>
+                        <a href="support.html">Support Us</a>
+                        <a href="account.html">My Account</a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-banner">
+            <div>
+                <span class="eyebrow">
+                    Community gallery
+                </span>
+
+                <h2>Submit an in-game photo</h2>
+
+                <p>
+                    Share your British Railway screenshots with the
+                    BRDB community. Every submission is checked by an
+                    administrator before appearing publicly.
+                </p>
+            </div>
+        </section>
+
+        <div
+            id="photoMessage"
+            class="community-message"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+        <section
+            id="photoLoading"
+            class="glass-panel community-loading"
+        >
+            <div class="account-spinner" aria-hidden="true"></div>
+
+            <h3>Checking your account…</h3>
+
+            <p>
+                You must be signed into BRDB before uploading.
+            </p>
+        </section>
+
+        <section
+            id="photoSignedOut"
+            class="glass-panel community-signed-out"
+            hidden
+        >
+            <span class="eyebrow">Account required</span>
+
+            <h2>Sign in before submitting</h2>
+
+            <p>
+                Signing in lets BRDB connect the submission to your
+                account and prevents anonymous spam.
+            </p>
+
+            <a
+                class="primary-button"
+                href="https://brbd-accounts.mrducktive.workers.dev/auth/discord"
+            >
+                Sign in with Discord
+            </a>
+        </section>
+
+        <section
+            id="photoUploader"
+            class="community-upload-layout"
+            hidden
+        >
+            <form
+                id="photoUploadForm"
+                class="glass-panel community-upload-form"
+            >
+                <div class="community-section-heading">
+                    <div>
+                        <span class="eyebrow">
+                            New submission
+                        </span>
+
+                        <h2>Photo details</h2>
+                    </div>
+
+                    <span id="uploadAccountName">
+                        Signed in
+                    </span>
+                </div>
+
+                <div class="community-form-grid">
+                    <div class="community-field full">
+                        <label for="photoFile">
+                            Screenshot
+                        </label>
+
+                        <input
+                            id="photoFile"
+                            name="photo"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            required
+                        >
+
+                        <small>
+                            JPG, PNG or WebP. Maximum file size: 3 MB.
+                        </small>
+                    </div>
+
+                    <div class="community-field full">
+                        <label for="photoTitle">
+                            Photo title
+                        </label>
+
+                        <input
+                            id="photoTitle"
+                            name="title"
+                            type="text"
+                            maxlength="100"
+                            placeholder="Example: Class 800 arriving at Victoria"
+                            required
+                        >
+                    </div>
+
+                    <div class="community-field">
+                        <label for="photoTrainClass">
+                            Train class
+                        </label>
+
+                        <input
+                            id="photoTrainClass"
+                            name="train_class"
+                            type="text"
+                            maxlength="80"
+                            placeholder="Example: Class 800"
+                        >
+                    </div>
+
+                    <div class="community-field">
+                        <label for="photoLocation">
+                            In-game location
+                        </label>
+
+                        <input
+                            id="photoLocation"
+                            name="location"
+                            type="text"
+                            maxlength="100"
+                            placeholder="Example: London Victoria"
+                        >
+                    </div>
+
+                    <div class="community-field full">
+                        <label for="photographerCredit">
+                            Photographer credit
+                        </label>
+
+                        <input
+                            id="photographerCredit"
+                            name="photographer_credit"
+                            type="text"
+                            maxlength="80"
+                            placeholder="Name shown below your photo"
+                            required
+                        >
+                    </div>
+
+                    <div class="community-field full">
+                        <label for="photoDescription">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="photoDescription"
+                            name="description"
+                            maxlength="500"
+                            placeholder="Tell people what is happening in the screenshot."
+                        ></textarea>
+
+                        <small id="descriptionCounter">
+                            0 / 500
+                        </small>
+                    </div>
+                </div>
+
+                <label class="community-confirmation">
+                    <input
+                        id="photoAgreement"
+                        type="checkbox"
+                        required
+                    >
+
+                    <span>
+                        I took this screenshot or have permission to
+                        submit it, and it contains no personal
+                        information or inappropriate content.
+                    </span>
+                </label>
+
+                <button
+                    id="submitPhotoButton"
+                    class="primary-button"
+                    type="submit"
+                >
+                    Submit for review
+                </button>
+            </form>
+
+            <aside class="glass-panel community-preview-panel">
+                <span class="eyebrow">
+                    Preview
+                </span>
+
+                <h2>Your photo</h2>
+
+                <div class="community-photo-preview">
+                    <img
+                        id="photoPreview"
+                        alt="Selected screenshot preview"
+                        hidden
+                    >
+
+                    <div id="photoPreviewEmpty">
+                        Choose a screenshot to preview it here.
+                    </div>
+                </div>
+
+                <div class="community-rules">
+                    <h3>Submission rules</h3>
+
+                    <ul>
+                        <li>British Railway in-game photos only.</li>
+                        <li>No real faces or personal information.</li>
+                        <li>No offensive or inappropriate content.</li>
+                        <li>Do not submit somebody else’s work.</li>
+                        <li>All photos remain hidden until approved.</li>
+                    </ul>
+                </div>
+            </aside>
+        </section>
+
+        <section class="notice-card">
+            <strong>Unofficial fan project:</strong>
+            British Railway DB is not operated or endorsed by the
+            developers of Roblox British Railway.
+        </section>
+    </main>
+
+    <script src="site.js"></script>
+    <script src="submit-photo.js"></script>
+</body>
+</html>
