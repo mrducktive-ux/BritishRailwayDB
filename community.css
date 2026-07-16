@@ -1,0 +1,346 @@
+/* BRDB Community Photos */
+
+[hidden] {
+    display: none !important;
+}
+
+body[data-page="submit-photo"]::before,
+body[data-page="community"]::before {
+    background-image:
+        linear-gradient(
+            180deg,
+            rgba(4, 8, 14, 0.52),
+            rgba(4, 8, 14, 0.88)
+        ),
+        url("https://static.wikia.nocookie.net/britishrailway/images/f/fb/Class800V4.png/revision/latest?cb=20260227103238"),
+        url("https://static.wikia.nocookie.net/britishrailway/images/a/a1/Class142ByEdgarL.png/revision/latest?cb=20260215134628");
+
+    background-size: cover, 44%, 38%;
+    background-position:
+        center,
+        right 4% top 12%,
+        left 5% bottom 8%;
+}
+
+.community-message {
+    display: none;
+    margin: 0 0 22px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+}
+
+.community-message.visible {
+    display: block;
+}
+
+.community-message.success {
+    color: #c9ffe0;
+    background: rgba(37, 181, 93, 0.14);
+    border: 1px solid rgba(37, 181, 93, 0.38);
+}
+
+.community-message.error {
+    color: #ffd1d1;
+    background: rgba(225, 65, 65, 0.14);
+    border: 1px solid rgba(225, 65, 65, 0.38);
+}
+
+.community-message.info {
+    color: #d9ecff;
+    background: rgba(55, 151, 230, 0.14);
+    border: 1px solid rgba(55, 151, 230, 0.38);
+}
+
+.community-loading,
+.community-signed-out {
+    padding: 34px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.community-loading h3,
+.community-signed-out h2 {
+    margin: 16px 0 8px;
+}
+
+.community-loading p,
+.community-signed-out p {
+    max-width: 650px;
+    margin: 0 auto 22px;
+    color: var(--text-soft);
+    line-height: 1.6;
+}
+
+.account-spinner {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.12);
+    border-top-color: var(--gold);
+    animation: community-spin 0.8s linear infinite;
+}
+
+@keyframes community-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.community-upload-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(310px, 0.75fr);
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 26px;
+}
+
+.community-upload-form,
+.community-preview-panel {
+    padding: 28px;
+}
+
+.community-preview-panel {
+    position: sticky;
+    top: 118px;
+}
+
+.community-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.community-section-heading h2,
+.community-preview-panel h2 {
+    margin: 7px 0 0;
+    font-size: 32px;
+}
+
+#uploadAccountName {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--gold);
+    background: var(--gold-soft);
+    border: 1px solid rgba(244, 196, 0, 0.26);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.community-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.community-field {
+    min-width: 0;
+}
+
+.community-field.full {
+    grid-column: 1 / -1;
+}
+
+.community-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.community-field input,
+.community-field textarea {
+    width: 100%;
+    padding: 14px 15px;
+    color: var(--text);
+    background: rgba(4, 11, 18, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    font: inherit;
+    outline: none;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.community-field input:focus,
+.community-field textarea:focus {
+    background: rgba(7, 16, 24, 0.92);
+    border-color: rgba(244, 196, 0, 0.72);
+    box-shadow: 0 0 0 4px rgba(244, 196, 0, 0.11);
+}
+
+.community-field input[type="file"] {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.community-field input::file-selector-button {
+    margin-right: 12px;
+    padding: 10px 14px;
+    color: #071018;
+    background: var(--gold);
+    border: 0;
+    border-radius: 10px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.community-field textarea {
+    min-height: 145px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.community-field small {
+    display: block;
+    margin-top: 7px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+#descriptionCounter {
+    text-align: right;
+}
+
+.community-confirmation {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 22px 0;
+    padding: 16px;
+    color: var(--text-soft);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    line-height: 1.55;
+    cursor: pointer;
+}
+
+.community-confirmation input {
+    flex: 0 0 auto;
+    width: 19px;
+    height: 19px;
+    margin-top: 2px;
+    accent-color: var(--gold);
+}
+
+.community-upload-form .primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 13px 22px;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 900;
+}
+
+.community-upload-form .primary-button:disabled {
+    opacity: 0.58;
+    cursor: wait;
+}
+
+.community-photo-preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 260px;
+    margin-top: 20px;
+    overflow: hidden;
+    color: var(--text-muted);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(244, 196, 0, 0.08),
+            rgba(39, 120, 180, 0.08)
+        ),
+        rgba(4, 11, 18, 0.74);
+    border: 1px dashed rgba(244, 196, 0, 0.3);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.community-photo-preview img {
+    width: 100%;
+    max-height: 470px;
+    object-fit: contain;
+}
+
+#photoPreviewEmpty {
+    max-width: 260px;
+    padding: 30px;
+    line-height: 1.6;
+}
+
+.community-rules {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.community-rules h3 {
+    margin: 0 0 12px;
+    color: var(--gold);
+}
+
+.community-rules ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-soft);
+    line-height: 1.75;
+}
+
+.community-rules li + li {
+    margin-top: 5px;
+}
+
+@media (max-width: 950px) {
+    .community-upload-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .community-preview-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 650px) {
+    .community-upload-form,
+    .community-preview-panel,
+    .community-loading,
+    .community-signed-out {
+        padding: 22px;
+    }
+
+    .community-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-field.full {
+        grid-column: auto;
+    }
+
+    .community-section-heading {
+        flex-direction: column;
+    }
+
+    .community-photo-preview {
+        min-height: 210px;
+    }
+
+    .community-upload-form .primary-button {
+        width: 100%;
+    }
+}
