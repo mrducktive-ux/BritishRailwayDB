@@ -17,7 +17,7 @@
 
     <link
         rel="stylesheet"
-        href="collection.css"
+        href="collection.css?v=3"
     >
 </head>
 
@@ -34,7 +34,7 @@
 
                 <div>
                     <h1>British Railway DB</h1>
-                    <p>Personal collection tracker</p>
+                    <p>Collection and coin planner</p>
                 </div>
             </div>
 
@@ -49,7 +49,9 @@
                     </summary>
 
                     <div class="page-menu-panel">
-                        <a href="index.html">Home</a>
+                        <a href="index.html">
+                            Home
+                        </a>
 
                         <a href="trains.html">
                             Rolling Stock
@@ -94,21 +96,23 @@
                 <h2>My Collection</h2>
 
                 <p>
-                    Track which trains and route packs you own,
-                    build a wishlist and see how complete your
-                    collection is.
+                    Track your trains, liveries, weekly items and
+                    route packs. Add wanted items to your wishlist
+                    and calculate how many coins you still need.
                 </p>
 
                 <div class="collection-storage-notice">
-                    Your collection is currently saved on this
-                    device. Account syncing will be added later.
+                    Your collection and coin balance are currently
+                    saved on this device.
                 </div>
             </div>
 
             <div class="collection-progress-card">
                 <div class="collection-progress-top">
                     <div>
-                        <span>Collection progress</span>
+                        <span>
+                            Collection progress
+                        </span>
 
                         <strong id="collectionPercentage">
                             0%
@@ -134,86 +138,106 @@
                 </div>
             </div>
         </section>
-<section class="coin-planner">
-    <div class="coin-planner-heading">
-        <div>
-            <span class="eyebrow">
-                Savings calculator
-            </span>
 
-            <h2>Coin Planner</h2>
+        <section class="coin-planner">
+            <div class="coin-planner-heading">
+                <div>
+                    <span class="eyebrow">
+                        Savings calculator
+                    </span>
 
-            <p>
-                Enter your current British Railway coin balance.
-                Items on your wishlist will be added together
-                automatically.
-            </p>
-        </div>
+                    <h2>Coin Planner</h2>
 
-        <label class="coin-balance-field">
-            <span>Current coins</span>
+                    <p>
+                        Enter your current coin balance. The cost of
+                        every priced item on your wishlist will be
+                        added together automatically.
+                    </p>
+                </div>
 
-            <input
-                type="number"
-                id="currentCoinsInput"
-                min="0"
-                step="1"
-                inputmode="numeric"
-                placeholder="Enter your coins"
-            >
-        </label>
-    </div>
+                <label class="coin-balance-field">
+                    <span>
+                        Current coins
+                    </span>
 
-    <div class="coin-planner-stats">
-        <article class="coin-planner-stat">
-            <span>Wishlist cost</span>
+                    <input
+                        type="number"
+                        id="currentCoinsInput"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                        placeholder="Enter your coins"
+                    >
+                </label>
+            </div>
 
-            <strong id="wishlistCost">
-                0
-            </strong>
+            <div class="coin-planner-stats">
+                <article class="coin-planner-stat">
+                    <span>
+                        Wishlist cost
+                    </span>
 
-            <small>coins</small>
-        </article>
+                    <strong id="wishlistCost">
+                        0
+                    </strong>
 
-        <article class="coin-planner-stat">
-            <span>Coins still needed</span>
+                    <small>
+                        coins
+                    </small>
+                </article>
 
-            <strong id="coinsNeeded">
-                0
-            </strong>
+                <article class="coin-planner-stat">
+                    <span>
+                        Coins still needed
+                    </span>
 
-            <small>coins</small>
-        </article>
+                    <strong id="coinsNeeded">
+                        0
+                    </strong>
 
-        <article class="coin-planner-stat">
-            <span>Coins remaining</span>
+                    <small>
+                        coins
+                    </small>
+                </article>
 
-            <strong id="coinsRemaining">
-                0
-            </strong>
+                <article class="coin-planner-stat">
+                    <span>
+                        Coins remaining
+                    </span>
 
-            <small>after buying wishlist</small>
-        </article>
+                    <strong id="coinsRemaining">
+                        0
+                    </strong>
 
-        <article
-            class="coin-planner-stat"
-            id="affordabilityCard"
-        >
-            <span>Wishlist status</span>
+                    <small>
+                        after buying your wishlist
+                    </small>
+                </article>
 
-            <strong id="affordabilityStatus">
-                Add some items
-            </strong>
+                <article
+                    class="coin-planner-stat"
+                    id="affordabilityCard"
+                >
+                    <span>
+                        Wishlist status
+                    </span>
 
-            <small id="affordabilityMessage">
-                Choose items you want to buy.
-            </small>
-        </article>
-    </div>
-</section>
+                    <strong id="affordabilityStatus">
+                        Add some items
+                    </strong>
+
+                    <small id="affordabilityMessage">
+                        Choose items you want to buy.
+                    </small>
+                </article>
+            </div>
+        </section>
+
         <section class="collection-stats">
             <article class="collection-stat-card">
-                <span>Owned</span>
+                <span>
+                    Owned
+                </span>
 
                 <strong id="ownedCount">
                     0
@@ -221,7 +245,9 @@
             </article>
 
             <article class="collection-stat-card">
-                <span>Wishlist</span>
+                <span>
+                    Wishlist
+                </span>
 
                 <strong id="wishlistCount">
                     0
@@ -229,7 +255,9 @@
             </article>
 
             <article class="collection-stat-card">
-                <span>Missing</span>
+                <span>
+                    Missing
+                </span>
 
                 <strong id="missingCount">
                     0
@@ -237,7 +265,9 @@
             </article>
 
             <article class="collection-stat-card">
-                <span>Total items</span>
+                <span>
+                    Total items
+                </span>
 
                 <strong id="totalCount">
                     0
@@ -246,39 +276,42 @@
         </section>
 
         <section class="collection-controls">
-           <div class="collection-tabs">
-    <button
-        type="button"
-        class="collection-tab active"
-        data-collection-type="trains"
-    >
-        🚆 Trains
-    </button>
+            <div class="collection-tabs">
+                <button
+                    type="button"
+                    class="collection-tab active"
+                    data-collection-type="trains"
+                    aria-pressed="true"
+                >
+                    🚆 Trains
+                </button>
 
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="liveries"
-    >
-        🎨 Liveries
-    </button>
+                <button
+                    type="button"
+                    class="collection-tab"
+                    data-collection-type="liveries"
+                    aria-pressed="false"
+                >
+                    🎨 Liveries
+                </button>
 
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="weekly"
-    >
-        ⭐ Weekly Items
-    </button>
+                <button
+                    type="button"
+                    class="collection-tab"
+                    data-collection-type="weekly"
+                    aria-pressed="false"
+                >
+                    ⭐ Weekly Items
+                </button>
 
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="routes"
-    >
-        🗺️ Routes
-    </button>
-</div>
+                <button
+                    type="button"
+                    class="collection-tab"
+                    data-collection-type="routes"
+                    aria-pressed="false"
+                >
+                    🗺️ Routes
+                </button>
             </div>
 
             <div class="collection-filters">
@@ -290,7 +323,7 @@
                     <input
                         type="search"
                         id="collectionSearch"
-                        placeholder="Search your collection..."
+                        placeholder="Search items..."
                     >
                 </label>
 
@@ -344,7 +377,9 @@
         <footer class="site-footer">
             <div class="footer-inner">
                 <span>
-                    © 2026 British Railway DB
+                    British Railway DB is an unofficial fan project
+                    and is not affiliated with British Railway,
+                    Fourth Rail or Roblox.
                 </span>
 
                 <div class="footer-links">
@@ -356,12 +391,12 @@
                         Routes
                     </a>
 
-                    <a href="collection.html">
-                        My Collection
+                    <a href="weekly.html">
+                        Weekly Items
                     </a>
 
-                    <a href="about.html">
-                        About Us
+                    <a href="collection.html">
+                        My Collection
                     </a>
                 </div>
             </div>
@@ -369,6 +404,6 @@
     </main>
 
     <script src="site.js"></script>
-    <script src="collection.js?v=2"></script>
+    <script src="collection.js?v=3"></script>
 </body>
 </html>
