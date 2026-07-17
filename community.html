@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Approved community screenshots submitted to the unofficial British Railway DB fan project."
+    >
+
+    <title>Community Photos | British Railway DB</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="community.css">
+
+    <style>
+        [hidden] {
+            display: none !important;
+        }
+
+        .gallery-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding: 22px;
+        }
+
+        .gallery-heading h2 {
+            margin: 5px 0 0;
+        }
+
+        .gallery-count {
+            flex-shrink: 0;
+            padding: 10px 16px;
+            color: var(--gold);
+            background: var(--gold-soft);
+            border: 1px solid rgba(244, 196, 0, 0.3);
+            border-radius: 999px;
+            font-weight: 900;
+        }
+
+        .gallery-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .gallery-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 11px 18px;
+            border-radius: 13px;
+            text-decoration: none;
+            font-weight: 900;
+        }
+
+        .gallery-button-primary {
+            color: #101000;
+            background: var(--gold);
+        }
+
+        .gallery-button-secondary {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+        }
+
+        .community-gallery {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .community-photo-card {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .community-photo-image {
+            position: relative;
+            min-height: 240px;
+            background: rgba(3, 9, 15, 0.8);
+            overflow: hidden;
+        }
+
+        .community-photo-image img {
+            display: block;
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition:
+                transform 220ms ease,
+                opacity 220ms ease;
+        }
+
+        .community-photo-card:hover
+        .community-photo-image img {
+            transform: scale(1.025);
+        }
+
+        .community-photo-image-button {
+            display: block;
+            width: 100%;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            cursor: zoom-in;
+        }
+
+        .community-photo-number {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            padding: 7px 10px;
+            color: #ffffff;
+            background: rgba(3, 8, 13, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            pointer-events: none;
+        }
+
+        .community-photo-content {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 22px;
+        }
+
+        .community-photo-content h2 {
+            margin: 7px 0 12px;
+            font-size: 25px;
+            overflow-wrap: anywhere;
+        }
+
+        .community-photo-description {
+            margin: 0 0 18px;
+            color: var(--text-soft);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .community-photo-facts {
+            display: grid;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .community-photo-fact {
+            display: grid;
+            grid-template-columns: 95px 1fr;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .community-photo-fact strong {
+            color: var(--gold);
+            font-size: 13px;
+        }
+
+        .community-photo-fact span {
+            color: var(--text-soft);
+            overflow-wrap: anywhere;
+        }
+
+        .community-loading,
+        .community-error,
+        .community-empty {
+            padding: 42px 24px;
+            text-align: center;
+        }
+
+        .community-loading h3,
+        .community-empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .community-error {
+            color: #ffd1d1;
+        }
+
+        .photo-modal {
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .photo-modal-inner {
+            position: relative;
+            width: 100%;
+            max-width: 1250px;
+            max-height: 94vh;
+        }
+
+        .photo-modal img {
+            display: block;
+            width: 100%;
+            max-height: 86vh;
+            object-fit: contain;
+            border-radius: 16px;
+        }
+
+        .photo-modal-close {
+            position: absolute;
+            z-index: 2;
+            top: 12px;
+            right: 12px;
+            width: 45px;
+            height: 45px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .photo-modal-caption {
+            margin: 10px 0 0;
+            color: #ffffff;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        @media (max-width: 650px) {
+            .gallery-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .community-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .community-photo-image img {
+                height: 240px;
+            }
+
+            .community-photo-fact {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark brand-logo">
+                    <img
+                        src="brdb-logo.png"
+                        alt="British Railway DB logo"
+                    >
+                </div>
+
+                <div>
+                    <h1>British Railway DB</h1>
+                    <p>Unofficial Roblox British Railway database</p>
+                </div>
+            </div>
+
+            <nav class="top-nav" aria-label="Main navigation">
+                <details class="page-menu">
+                    <summary>
+                        Pages
+                        <span aria-hidden="true">▼</span>
+                    </summary>
+
+                    <div class="page-menu-panel">
+                        <a href="index.html">Home</a>
+                        <a href="trains.html">Rolling Stock</a>
+                        <a href="routes.html">Routes</a>
+                        <a href="weekly.html">Weekly Items</a>
+
+                        <a
+                            href="community.html"
+                            class="current"
+                        >
+                            Community Photos
+                        </a>
+
+                        <a href="submit-photo.html">
+                            Submit a Photo
+                        </a>
+
+                        <a href="account.html">
+                            My Account
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-banner">
+            <div>
+                <span class="eyebrow">
+                    Community gallery
+                </span>
+
+                <h2>British Railway screenshots</h2>
+
+                <p>
+                    Explore screenshots submitted by British Railway
+                    players and approved by the BRDB moderation team.
+                </p>
+
+                <div class="gallery-actions">
+                    <a
+                        href="submit-photo.html"
+                        class="gallery-button gallery-button-primary"
+                    >
+                        Submit a screenshot
+                    </a>
+
+                    <a
+                        href="account.html"
+                        class="gallery-button gallery-button-secondary"
+                    >
+                        My BRDB account
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="notice-card">
+            <strong>Unofficial fan project:</strong>
+            British Railway DB is not operated, endorsed or managed by
+            the developers of British Railway.
+        </section>
+
+        <section class="glass-panel gallery-heading">
+            <div>
+                <span class="eyebrow">Approved submissions</span>
+                <h2>Community photo gallery</h2>
+            </div>
+
+            <span id="galleryCount" class="gallery-count">
+                Loading…
+            </span>
+        </section>
+
+        <section
+            id="galleryLoading"
+            class="glass-panel community-loading"
+        >
+            <h3>Loading community photos…</h3>
+            <p>Please wait while the gallery is loaded.</p>
+        </section>
+
+        <section
+            id="galleryError"
+            class="glass-panel community-error"
+            hidden
+        ></section>
+
+        <section
+            id="galleryEmpty"
+            class="glass-panel community-empty"
+            hidden
+        >
+            <span class="eyebrow">The gallery is empty</span>
+
+            <h2>No approved photos yet</h2>
+
+            <p>
+                Submit the first British Railway screenshot for review!
+            </p>
+
+            <div class="gallery-actions">
+                <a
+                    href="submit-photo.html"
+                    class="gallery-button gallery-button-primary"
+                >
+                    Submit the first photo
+                </a>
+            </div>
+        </section>
+
+        <section
+            id="communityGallery"
+            class="community-gallery"
+            aria-live="polite"
+        ></section>
+    </main>
+
+    <div
+        id="photoModal"
+        class="photo-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Full-size community photo"
+        hidden
+    >
+        <div class="photo-modal-inner">
+            <button
+                id="photoModalClose"
+                class="photo-modal-close"
+                type="button"
+                aria-label="Close full-size photo"
+            >
+                ×
+            </button>
+
+            <img
+                id="photoModalImage"
+                src=""
+                alt=""
+            >
+
+            <p
+                id="photoModalCaption"
+                class="photo-modal-caption"
+            ></p>
+        </div>
+    </div>
+
+    <script src="site.js"></script>
+
+    <script>
+        (function () {
+            "use strict";
+
+            var API_BASE =
+                "https://brbd-accounts.mrducktive.workers.dev";
+
+            var loading =
+                document.getElementById("galleryLoading");
+
+            var errorPanel =
+                document.getElementById("galleryError");
+
+            var emptyPanel =
+                document.getElementById("galleryEmpty");
+
+            var gallery =
+                document.getElementById("communityGallery");
+
+            var count =
+                document.getElementById("galleryCount");
+
+            var modal =
+                document.getElementById("photoModal");
+
+            var modalImage =
+                document.getElementById("photoModalImage");
+
+            var modalCaption =
+                document.getElementById("photoModalCaption");
+
+            var modalClose =
+                document.getElementById("photoModalClose");
+
+            function hide(element) {
+                element.hidden = true;
+                element.style.display = "none";
+            }
+
+            function show(element, displayType) {
+                element.hidden = false;
+                element.style.display = displayType || "";
+            }
+
+            function requestPhotos() {
+                return fetch(
+                    API_BASE + "/api/photos",
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                ).then(function (response) {
+                    return response.text().then(function (text) {
+                        var data = {};
+
+                        if (text) {
+                            try {
+                                data = JSON.parse(text);
+                            } catch (error) {
+                                throw new Error(
+                                    "The server returned invalid gallery data."
+                                );
+                            }
+                        }
+
+                        if (!response.ok || data.ok === false) {
+                            throw new Error(
+                                data.error ||
+                                "The gallery could not be loaded."
+                            );
+                        }
+
+                        return data;
+                    });
+                });
+            }
+
+            function addFact(container, label, value) {
+                if (!value) {
+                    return;
+                }
+
+                var row =
+                    document.createElement("div");
+
+                var heading =
+                    document.createElement("strong");
+
+                var content =
+                    document.createElement("span");
+
+                row.className = "community-photo-fact";
+                heading.textContent = label;
+                content.textContent = value;
+
+                row.appendChild(heading);
+                row.appendChild(content);
+                container.appendChild(row);
+            }
+
+            function formatDate(value) {
+                if (!value) {
+                    return "Unknown";
+                }
+
+                var parsed =
+                    new Date(
+                        String(value).replace(" ", "T") + "Z"
+                    );
+
+                if (isNaN(parsed.getTime())) {
+                    return value;
+                }
+
+                return parsed.toLocaleDateString(
+                    "en-GB",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+            }
+
+            function openPhoto(photo) {
+                modalImage.src = photo.photo_url;
+                modalImage.alt = photo.title;
+                modalCaption.textContent =
+                    photo.title +
+                    " — photo by " +
+                    photo.photographer_credit;
+
+                show(modal, "flex");
+                document.body.style.overflow = "hidden";
+                modalClose.focus();
+            }
+
+            function closePhoto() {
+                hide(modal);
+                modalImage.src = "";
+                document.body.style.overflow = "";
+            }
+
+            function createPhotoCard(photo) {
+                var card =
+                    document.createElement("article");
+
+                var imageArea =
+                    document.createElement("div");
+
+                var imageButton =
+                    document.createElement("button");
+
+                var image =
+                    document.createElement("img");
+
+                var number =
+                    document.createElement("span");
+
+                var content =
+                    document.createElement("div");
+
+                var eyebrow =
+                    document.createElement("span");
+
+                var title =
+                    document.createElement("h2");
+
+                var description =
+                    document.createElement("p");
+
+                var facts =
+                    document.createElement("div");
+
+                card.className =
+                    "glass-panel community-photo-card";
+
+                imageArea.className =
+                    "community-photo-image";
+
+                imageButton.className =
+                    "community-photo-image-button";
+
+                imageButton.type = "button";
+                imageButton.setAttribute(
+                    "aria-label",
+                    "Open " + photo.title + " full size"
+                );
+
+                image.src = photo.photo_url;
+                image.alt =
+                    photo.title +
+                    " — submitted by " +
+                    photo.photographer_credit;
+
+                image.loading = "lazy";
+
+                image.addEventListener(
+                    "error",
+                    function () {
+                        image.alt =
+                            "This community photo could not be loaded.";
+                        image.style.opacity = "0.25";
+                    }
+                );
+
+                imageButton.addEventListener(
+                    "click",
+                    function () {
+                        openPhoto(photo);
+                    }
+                );
+
+                number.className =
+                    "community-photo-number";
+
+                number.textContent =
+                    "#" + String(photo.id);
+
+                imageButton.appendChild(image);
+                imageArea.appendChild(imageButton);
+                imageArea.appendChild(number);
+
+                content.className =
+                    "community-photo-content";
+
+                eyebrow.className = "eyebrow";
+                eyebrow.textContent =
+                    photo.train_class ||
+                    "Community screenshot";
+
+                title.textContent = photo.title;
+
+                description.className =
+                    "community-photo-description";
+
+                description.textContent =
+                    photo.description ||
+                    "No description was provided.";
+
+                facts.className =
+                    "community-photo-facts";
+
+                addFact(
+                    facts,
+                    "Location",
+                    photo.location
+                );
+
+                addFact(
+                    facts,
+                    "Train",
+                    photo.train_class
+                );
+
+                addFact(
+                    facts,
+                    "Photo by",
+                    photo.photographer_credit
+                );
+
+                addFact(
+                    facts,
+                    "Approved",
+                    formatDate(
+                        photo.reviewed_at ||
+                        photo.created_at
+                    )
+                );
+
+                content.appendChild(eyebrow);
+                content.appendChild(title);
+                content.appendChild(description);
+                content.appendChild(facts);
+
+                card.appendChild(imageArea);
+                card.appendChild(content);
+
+                return card;
+            }
+
+            function loadGallery() {
+                hide(errorPanel);
+                hide(emptyPanel);
+                show(loading, "block");
+
+                requestPhotos()
+                    .then(function (data) {
+                        hide(loading);
+                        gallery.textContent = "";
+
+                        var photos =
+                            Array.isArray(data.photos)
+                                ? data.photos
+                                : [];
+
+                        count.textContent =
+                            photos.length === 1
+                                ? "1 photo"
+                                : photos.length + " photos";
+
+                        if (photos.length === 0) {
+                            show(emptyPanel, "block");
+                            return;
+                        }
+
+                        photos.forEach(function (photo) {
+                            gallery.appendChild(
+                                createPhotoCard(photo)
+                            );
+                        });
+                    })
+                    .catch(function (error) {
+                        hide(loading);
+
+                        errorPanel.textContent =
+                            error.message ||
+                            "The community gallery could not be loaded.";
+
+                        show(errorPanel, "block");
+                        count.textContent = "Unavailable";
+                    });
+            }
+
+            modalClose.addEventListener(
+                "click",
+                closePhoto
+            );
+
+            modal.addEventListener(
+                "click",
+                function (event) {
+                    if (event.target === modal) {
+                        closePhoto();
+                    }
+                }
+            );
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+                    if (
+                        event.key === "Escape" &&
+                        !modal.hidden
+                    ) {
+                        closePhoto();
+                    }
+                }
+            );
+
+            loadGallery();
+        }());
+    </script>
+</body>
+</html>
