@@ -442,12 +442,40 @@
         return results;
     }
 
-    function loadWiki(pageName) {
-        if (pageCache[pageName]) {
-            return pageCache[
-                pageName
-            ];
+function loadWiki(pageName) {
+    if (pageCache[pageName]) {
+        return pageCache[pageName];
+    }
+
+    if (!loadWiki.queue) {
+        loadWiki.queue = [];
+        loadWiki.running = false;
+    }
+
+    pageCache[pageName] =
+        new Promise(
+            function (resolve) {
+                loadWiki.queue.push({
+                    pageName: pageName,
+                    resolve: resolve
+                });
+
+                runNext();
+            }
+        );
+
+    function runNext() {
+        if (
+            loadWiki.running ||
+            !loadWiki.queue.length
+        ) {
+            return;
         }
+
+        loadWiki.running = true;
+
+        var job =
+            loadWiki.queue.shift();
 
         var url =
             API +
@@ -459,34 +487,30 @@
             "&formatversion=2" +
             "&page=" +
             encodeURIComponent(
-                pageName
+                job.pageName
             );
 
-        pageCache[pageName] =
+        requestPage(0);
+
+        function requestPage(attempt) {
             fetch(
                 url,
                 {
                     method: "GET",
                     mode: "cors",
                     credentials: "omit",
-                    cache:
-                        "force-cache"
+                    cache: "no-store"
                 }
             )
                 .then(
-                    function (
-                        response
-                    ) {
-                        if (
-                            !response.ok
-                        ) {
+                    function (response) {
+                        if (!response.ok) {
                             throw new Error(
                                 "Wiki request failed"
                             );
                         }
 
-                        return response
-                            .json();
+                        return response.json();
                     }
                 )
                 .then(
@@ -495,37 +519,66 @@
                             result.parse &&
                             result.parse.text
                         ) {
-                            return extractRows(
-                                result
-                                    .parse
-                                    .text
+                            finish(
+                                extractRows(
+                                    result.parse.text
+                                )
                             );
+
+                            return;
                         }
 
-                        return [];
+                        finish([]);
                     }
                 )
                 .catch(
                     function (error) {
+                        if (attempt < 1) {
+                            window.setTimeout(
+                                function () {
+                                    requestPage(
+                                        attempt + 1
+                                    );
+                                },
+                                700
+                            );
+
+                            return;
+                        }
+
                         if (
                             window.console &&
                             console.error
                         ) {
                             console.error(
                                 "Photo page failed: " +
-                                pageName,
+                                job.pageName,
                                 error
                             );
                         }
 
-                        return [];
+                        finish([]);
                     }
                 );
+        }
 
-        return pageCache[
-            pageName
-        ];
+        function finish(rows) {
+            job.resolve(rows);
+
+            window.setTimeout(
+                function () {
+                    loadWiki.running =
+                        false;
+
+                    runNext();
+                },
+                200
+            );
+        }
     }
+
+    return pageCache[pageName];
+}
 
     function loadTrainPhotos() {
         if (trainCache) {
