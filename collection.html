@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Collection | British Railway DB</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="collection.css"
+    >
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark brand-logo">
+                    <img
+                        src="brdb-logo.png"
+                        alt="British Railway DB logo"
+                    >
+                </div>
+
+                <div>
+                    <h1>British Railway DB</h1>
+                    <p>Personal collection tracker</p>
+                </div>
+            </div>
+
+            <nav
+                class="top-nav"
+                aria-label="Main navigation"
+            >
+                <details class="page-menu">
+                    <summary>
+                        Pages
+                        <span aria-hidden="true">▼</span>
+                    </summary>
+
+                    <div class="page-menu-panel">
+                        <a href="index.html">Home</a>
+
+                        <a href="trains.html">
+                            Rolling Stock
+                        </a>
+
+                        <a href="routes.html">
+                            Routes
+                        </a>
+
+                        <a href="weekly.html">
+                            Weekly Items
+                        </a>
+
+                        <a
+                            href="collection.html"
+                            class="current"
+                            aria-current="page"
+                        >
+                            My Collection
+                        </a>
+
+                        <a href="about.html">
+                            About Us
+                        </a>
+
+                        <a href="support.html">
+                            Support Us
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="collection-hero">
+            <div class="collection-hero-main">
+                <span class="eyebrow">
+                    Your British Railway progress
+                </span>
+
+                <h2>My Collection</h2>
+
+                <p>
+                    Track which trains and route packs you own,
+                    build a wishlist and see how complete your
+                    collection is.
+                </p>
+
+                <div class="collection-storage-notice">
+                    Your collection is currently saved on this
+                    device. Account syncing will be added later.
+                </div>
+            </div>
+
+            <div class="collection-progress-card">
+                <div class="collection-progress-top">
+                    <div>
+                        <span>Collection progress</span>
+
+                        <strong id="collectionPercentage">
+                            0%
+                        </strong>
+                    </div>
+
+                    <div
+                        class="collection-progress-ring"
+                        id="collectionProgressRing"
+                        aria-hidden="true"
+                    >
+                        <span id="collectionRingText">
+                            0%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="collection-progress-track">
+                    <div
+                        class="collection-progress-fill"
+                        id="collectionProgressFill"
+                    ></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="collection-stats">
+            <article class="collection-stat-card">
+                <span>Owned</span>
+
+                <strong id="ownedCount">
+                    0
+                </strong>
+            </article>
+
+            <article class="collection-stat-card">
+                <span>Wishlist</span>
+
+                <strong id="wishlistCount">
+                    0
+                </strong>
+            </article>
+
+            <article class="collection-stat-card">
+                <span>Missing</span>
+
+                <strong id="missingCount">
+                    0
+                </strong>
+            </article>
+
+            <article class="collection-stat-card">
+                <span>Total items</span>
+
+                <strong id="totalCount">
+                    0
+                </strong>
+            </article>
+        </section>
+
+        <section class="collection-controls">
+            <div class="collection-tabs">
+                <button
+                    type="button"
+                    class="collection-tab active"
+                    data-collection-type="trains"
+                >
+                    🚆 Trains
+                </button>
+
+                <button
+                    type="button"
+                    class="collection-tab"
+                    data-collection-type="routes"
+                >
+                    🗺️ Routes
+                </button>
+            </div>
+
+            <div class="collection-filters">
+                <label class="collection-search">
+                    <span class="sr-only">
+                        Search collection
+                    </span>
+
+                    <input
+                        type="search"
+                        id="collectionSearch"
+                        placeholder="Search your collection..."
+                    >
+                </label>
+
+                <label>
+                    <span class="sr-only">
+                        Filter collection status
+                    </span>
+
+                    <select id="collectionStatusFilter">
+                        <option value="all">
+                            All items
+                        </option>
+
+                        <option value="owned">
+                            Owned
+                        </option>
+
+                        <option value="wishlist">
+                            Wishlist
+                        </option>
+
+                        <option value="missing">
+                            Missing
+                        </option>
+                    </select>
+                </label>
+
+                <button
+                    type="button"
+                    class="collection-reset-button"
+                    id="resetCollectionButton"
+                >
+                    Reset Collection
+                </button>
+            </div>
+        </section>
+
+        <section
+            class="collection-message"
+            id="collectionMessage"
+            aria-live="polite"
+        >
+            Loading your collection…
+        </section>
+
+        <section
+            class="collection-grid"
+            id="collectionGrid"
+        ></section>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <span>
+                    © 2026 British Railway DB
+                </span>
+
+                <div class="footer-links">
+                    <a href="trains.html">
+                        Trains
+                    </a>
+
+                    <a href="routes.html">
+                        Routes
+                    </a>
+
+                    <a href="collection.html">
+                        My Collection
+                    </a>
+
+                    <a href="about.html">
+                        About Us
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="site.js"></script>
+    <script src="collection.js"></script>
+</body>
+</html>
