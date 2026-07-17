@@ -134,7 +134,83 @@
                 </div>
             </div>
         </section>
+<section class="coin-planner">
+    <div class="coin-planner-heading">
+        <div>
+            <span class="eyebrow">
+                Savings calculator
+            </span>
 
+            <h2>Coin Planner</h2>
+
+            <p>
+                Enter your current British Railway coin balance.
+                Items on your wishlist will be added together
+                automatically.
+            </p>
+        </div>
+
+        <label class="coin-balance-field">
+            <span>Current coins</span>
+
+            <input
+                type="number"
+                id="currentCoinsInput"
+                min="0"
+                step="1"
+                inputmode="numeric"
+                placeholder="Enter your coins"
+            >
+        </label>
+    </div>
+
+    <div class="coin-planner-stats">
+        <article class="coin-planner-stat">
+            <span>Wishlist cost</span>
+
+            <strong id="wishlistCost">
+                0
+            </strong>
+
+            <small>coins</small>
+        </article>
+
+        <article class="coin-planner-stat">
+            <span>Coins still needed</span>
+
+            <strong id="coinsNeeded">
+                0
+            </strong>
+
+            <small>coins</small>
+        </article>
+
+        <article class="coin-planner-stat">
+            <span>Coins remaining</span>
+
+            <strong id="coinsRemaining">
+                0
+            </strong>
+
+            <small>after buying wishlist</small>
+        </article>
+
+        <article
+            class="coin-planner-stat"
+            id="affordabilityCard"
+        >
+            <span>Wishlist status</span>
+
+            <strong id="affordabilityStatus">
+                Add some items
+            </strong>
+
+            <small id="affordabilityMessage">
+                Choose items you want to buy.
+            </small>
+        </article>
+    </div>
+</section>
         <section class="collection-stats">
             <article class="collection-stat-card">
                 <span>Owned</span>
@@ -170,22 +246,39 @@
         </section>
 
         <section class="collection-controls">
-            <div class="collection-tabs">
-                <button
-                    type="button"
-                    class="collection-tab active"
-                    data-collection-type="trains"
-                >
-                    🚆 Trains
-                </button>
+           <div class="collection-tabs">
+    <button
+        type="button"
+        class="collection-tab active"
+        data-collection-type="trains"
+    >
+        🚆 Trains
+    </button>
 
-                <button
-                    type="button"
-                    class="collection-tab"
-                    data-collection-type="routes"
-                >
-                    🗺️ Routes
-                </button>
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="liveries"
+    >
+        🎨 Liveries
+    </button>
+
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="weekly"
+    >
+        ⭐ Weekly Items
+    </button>
+
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="routes"
+    >
+        🗺️ Routes
+    </button>
+</div>
             </div>
 
             <div class="collection-filters">
