@@ -1,4 +1,6 @@
-/* British Railway DB — My Collection */
+/* British Railway DB
+   Collection and Coin Planner
+*/
 
 .sr-only {
     position: absolute;
@@ -12,34 +14,39 @@
     border: 0;
 }
 
+.collection-hero,
+.coin-planner,
+.collection-stats,
+.collection-controls,
+.collection-message,
+.collection-grid {
+    box-sizing: border-box;
+}
+
+/* Main collection hero */
+
 .collection-hero {
     display: grid;
     grid-template-columns:
         minmax(0, 1.25fr)
-        minmax(300px, 0.75fr);
+        minmax(290px, 0.75fr);
     gap: 22px;
     align-items: stretch;
-}
-
-.collection-hero-main,
-.collection-progress-card,
-.collection-stat-card,
-.collection-controls,
-.collection-message,
-.collection-card {
-    background: rgba(11, 22, 33, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
 
 .collection-hero-main,
 .collection-progress-card {
     padding: 28px;
     border-radius: 26px;
+    background: rgba(11, 22, 33, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.24);
 }
 
 .collection-hero-main h2 {
     margin: 8px 0 12px;
+    font-size: 46px;
     font-size: clamp(34px, 5vw, 58px);
     letter-spacing: -0.04em;
 }
@@ -48,20 +55,22 @@
     max-width: 720px;
     margin: 0;
     color: var(--text-soft);
-    line-height: 1.7;
     font-size: 17px;
+    line-height: 1.7;
 }
 
 .collection-storage-notice {
     margin-top: 20px;
     padding: 14px 16px;
     border-radius: 14px;
-    border: 1px solid rgba(244, 196, 0, 0.25);
-    background: rgba(244, 196, 0, 0.08);
     color: var(--text-soft);
-    line-height: 1.5;
     font-size: 14px;
+    line-height: 1.5;
+    background: rgba(244, 196, 0, 0.08);
+    border: 1px solid rgba(244, 196, 0, 0.25);
 }
+
+/* Collection progress */
 
 .collection-progress-card {
     display: flex;
@@ -86,10 +95,12 @@
 .collection-progress-top strong {
     display: block;
     margin-top: 8px;
+    font-size: 42px;
     font-size: clamp(34px, 5vw, 50px);
 }
 
 .collection-progress-ring {
+    position: relative;
     width: 106px;
     height: 106px;
     flex-shrink: 0;
@@ -101,7 +112,6 @@
             var(--gold) 0%,
             rgba(255, 255, 255, 0.08) 0%
         );
-    position: relative;
 }
 
 .collection-progress-ring::before {
@@ -134,13 +144,157 @@
     width: 0%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(
-        90deg,
-        #f4c400,
-        #ffe567
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #f4c400,
+            #ffe567
+        );
     transition: width 0.3s ease;
 }
+
+/* Coin planner */
+
+.coin-planner {
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(11, 22, 33, 0.92);
+    border: 1px solid rgba(244, 196, 0, 0.2);
+    box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+.coin-planner-heading {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(220px, 300px);
+    gap: 22px;
+    align-items: end;
+}
+
+.coin-planner-heading h2 {
+    margin: 7px 0 8px;
+    font-size: 34px;
+    font-size: clamp(28px, 5vw, 42px);
+}
+
+.coin-planner-heading p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--text-soft);
+    line-height: 1.6;
+}
+
+.coin-balance-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.coin-balance-field span {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.coin-balance-field input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 56px;
+    padding: 13px 16px;
+    border-radius: 15px;
+    border: 1px solid rgba(244, 196, 0, 0.3);
+    background: rgba(3, 10, 16, 0.72);
+    color: var(--text);
+    font: inherit;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.coin-balance-field input::placeholder {
+    color: var(--text-muted);
+}
+
+.coin-balance-field input:focus {
+    border-color: var(--gold);
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(244, 196, 0, 0.12);
+}
+
+.coin-planner-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.coin-planner-stat {
+    min-width: 0;
+    padding: 18px;
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.coin-planner-stat > span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.coin-planner-stat strong {
+    display: block;
+    margin: 8px 0 4px;
+    overflow-wrap: anywhere;
+    color: var(--text);
+    font-size: 28px;
+    font-size: clamp(23px, 4vw, 34px);
+}
+
+.coin-planner-stat small {
+    display: block;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+#affordabilityCard {
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+#affordabilityCard[data-status="affordable"] {
+    border-color: rgba(72, 211, 138, 0.38);
+    background: rgba(72, 211, 138, 0.09);
+}
+
+#affordabilityCard[data-status="affordable"] strong {
+    color: #baffd6;
+}
+
+#affordabilityCard[data-status="needed"] {
+    border-color: rgba(255, 105, 105, 0.38);
+    background: rgba(255, 105, 105, 0.08);
+}
+
+#affordabilityCard[data-status="needed"] strong {
+    color: #ffd1d1;
+}
+
+#affordabilityCard[data-status="empty"] {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.045);
+}
+
+/* Overall collection stats */
 
 .collection-stats {
     display: grid;
@@ -152,6 +306,10 @@
 .collection-stat-card {
     padding: 20px;
     border-radius: 18px;
+    background: rgba(11, 22, 33, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.2);
 }
 
 .collection-stat-card span {
@@ -166,12 +324,19 @@
 .collection-stat-card strong {
     display: block;
     margin-top: 8px;
+    color: var(--text);
     font-size: 34px;
 }
+
+/* Tabs, search and filters */
 
 .collection-controls {
     padding: 18px;
     border-radius: 22px;
+    background: rgba(11, 22, 33, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.22);
 }
 
 .collection-tabs {
@@ -183,6 +348,7 @@
 
 .collection-tab {
     appearance: none;
+    -webkit-appearance: none;
     padding: 12px 18px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -191,12 +357,16 @@
     font: inherit;
     font-weight: 800;
     cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .collection-tab:hover,
 .collection-tab:focus,
 .collection-tab.active {
-    border-color: rgba(244, 196, 0, 0.34);
+    border-color: rgba(244, 196, 0, 0.4);
     background: rgba(244, 196, 0, 0.14);
     color: var(--text);
     outline: none;
@@ -213,12 +383,13 @@
 
 .collection-search input,
 .collection-filters select {
+    box-sizing: border-box;
     width: 100%;
     min-height: 48px;
     padding: 12px 14px;
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(3, 10, 16, 0.65);
+    background: rgba(3, 10, 16, 0.68);
     color: var(--text);
     font: inherit;
 }
@@ -229,35 +400,55 @@
 
 .collection-search input:focus,
 .collection-filters select:focus {
-    border-color: rgba(244, 196, 0, 0.5);
+    border-color: rgba(244, 196, 0, 0.55);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(244, 196, 0, 0.1);
+    box-shadow:
+        0 0 0 3px rgba(244, 196, 0, 0.1);
+}
+
+.collection-filters select option {
+    background: #0d1924;
+    color: #ffffff;
 }
 
 .collection-reset-button {
     min-height: 48px;
     padding: 12px 17px;
     border-radius: 14px;
-    border: 1px solid rgba(255, 105, 105, 0.28);
+    border: 1px solid rgba(255, 105, 105, 0.3);
     background: rgba(255, 105, 105, 0.08);
     color: #ffd5d5;
     font: inherit;
     font-weight: 800;
     cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .collection-reset-button:hover,
 .collection-reset-button:focus {
+    border-color: rgba(255, 105, 105, 0.5);
     background: rgba(255, 105, 105, 0.16);
     outline: none;
 }
+
+/* Loading and error message */
 
 .collection-message {
     padding: 18px;
     border-radius: 18px;
     color: var(--text-soft);
     text-align: center;
+    background: rgba(11, 22, 33, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+.collection-message[hidden] {
+    display: none;
+}
+
+/* Item grid */
 
 .collection-grid {
     display: grid;
@@ -267,22 +458,40 @@
 }
 
 .collection-card {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border-radius: 20px;
+    background: rgba(11, 22, 33, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.22);
     transition:
         transform 0.2s ease,
-        border-color 0.2s ease;
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .collection-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(244, 196, 0, 0.25);
+    border-color: rgba(244, 196, 0, 0.28);
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.28);
+}
+
+.collection-card[data-status="owned"] {
+    border-color: rgba(72, 211, 138, 0.28);
+}
+
+.collection-card[data-status="wishlist"] {
+    border-color: rgba(244, 196, 0, 0.3);
 }
 
 .collection-card-image {
+    position: relative;
     width: 100%;
+    min-height: 180px;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.04);
@@ -291,7 +500,13 @@
 .collection-card-image img {
     width: 100%;
     height: 100%;
+    min-height: 180px;
+    display: block;
     object-fit: cover;
+}
+
+.collection-card-image > div {
+    min-height: 180px;
 }
 
 .collection-card-content {
@@ -303,14 +518,59 @@
 
 .collection-card-content h3 {
     margin: 0;
+    color: var(--text);
     font-size: 21px;
+    line-height: 1.25;
 }
 
 .collection-card-content p {
-    margin: 7px 0 16px;
+    margin: 8px 0 16px;
     color: var(--text-muted);
     line-height: 1.5;
 }
+
+.collection-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+}
+
+.collection-card-badge,
+.collection-card-price,
+.collection-price {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: #ffe982;
+    font-size: 13px;
+    font-weight: 900;
+    background: rgba(244, 196, 0, 0.11);
+    border: 1px solid rgba(244, 196, 0, 0.22);
+}
+
+.collection-card-badge {
+    color: var(--text-soft);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.collection-card-price[data-price-type="free"] {
+    color: #baffd6;
+    background: rgba(72, 211, 138, 0.1);
+    border-color: rgba(72, 211, 138, 0.25);
+}
+
+.collection-card-price[data-price-type="unavailable"],
+.collection-card-price[data-price-type="unlock"] {
+    color: #d9ddff;
+    background: rgba(142, 153, 255, 0.1);
+    border-color: rgba(142, 153, 255, 0.24);
+}
+
+/* Item buttons */
 
 .collection-card-actions {
     display: grid;
@@ -321,6 +581,7 @@
 }
 
 .collection-action-button {
+    min-height: 44px;
     padding: 11px 10px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -329,6 +590,10 @@
     font: inherit;
     font-weight: 800;
     cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .collection-action-button:hover,
@@ -339,16 +604,23 @@
 }
 
 .collection-action-button.owned.active {
-    border-color: rgba(72, 211, 138, 0.4);
+    border-color: rgba(72, 211, 138, 0.42);
     background: rgba(72, 211, 138, 0.15);
     color: #baffd6;
 }
 
 .collection-action-button.wishlist.active {
-    border-color: rgba(244, 196, 0, 0.4);
+    border-color: rgba(244, 196, 0, 0.42);
     background: rgba(244, 196, 0, 0.14);
     color: #ffe982;
 }
+
+.collection-action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Current item state */
 
 .collection-card-status {
     margin-top: 12px;
@@ -373,21 +645,32 @@
     color: #ffe982;
 }
 
+/* Empty search/filter result */
+
 .collection-empty {
     grid-column: 1 / -1;
-    padding: 36px 20px;
+    padding: 38px 20px;
     border-radius: 20px;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border: 1px dashed rgba(255, 255, 255, 0.16);
+    background: rgba(11, 22, 33, 0.55);
     color: var(--text-muted);
     text-align: center;
 }
+
+/* Tablet layout */
 
 @media (max-width: 1000px) {
     .collection-hero {
         grid-template-columns: 1fr;
     }
 
-    .collection-stats {
+    .coin-planner-heading {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .collection-stats,
+    .coin-planner-stats {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
@@ -398,10 +681,13 @@
     }
 }
 
+/* Mobile layout */
+
 @media (max-width: 700px) {
     .collection-hero-main,
-    .collection-progress-card {
-        padding: 22px;
+    .collection-progress-card,
+    .coin-planner {
+        padding: 21px;
     }
 
     .collection-progress-top {
@@ -422,50 +708,51 @@
         grid-template-columns: 1fr;
     }
 
+    .collection-tabs {
+        display: grid;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .collection-tab {
+        width: 100%;
+        padding: 11px 8px;
+    }
+
     .collection-grid {
         grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 430px) {
-    .collection-stats {
+@media (max-width: 480px) {
+    .collection-stats,
+    .coin-planner-stats {
         grid-template-columns: 1fr;
     }
 
     .collection-card-actions {
         grid-template-columns: 1fr;
     }
+
+    .collection-progress-top {
+        gap: 12px;
+    }
+
+    .collection-progress-ring {
+        width: 80px;
+        height: 80px;
+    }
+
+    .collection-progress-ring::before {
+        width: 58px;
+        height: 58px;
+    }
+
+    .collection-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .coin-balance-field input {
+        font-size: 18px;
+    }
 }
-<div class="collection-tabs">
-    <button
-        type="button"
-        class="collection-tab active"
-        data-collection-type="trains"
-    >
-        🚆 Trains
-    </button>
-
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="liveries"
-    >
-        🎨 Liveries
-    </button>
-
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="weekly"
-    >
-        ⭐ Weekly Items
-    </button>
-
-    <button
-        type="button"
-        class="collection-tab"
-        data-collection-type="routes"
-    >
-        🗺️ Routes
-    </button>
-</div>
