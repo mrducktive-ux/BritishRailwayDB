@@ -436,3 +436,36 @@
         grid-template-columns: 1fr;
     }
 }
+<div class="collection-tabs">
+    <button
+        type="button"
+        class="collection-tab active"
+        data-collection-type="trains"
+    >
+        🚆 Trains
+    </button>
+
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="liveries"
+    >
+        🎨 Liveries
+    </button>
+
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="weekly"
+    >
+        ⭐ Weekly Items
+    </button>
+
+    <button
+        type="button"
+        class="collection-tab"
+        data-collection-type="routes"
+    >
+        🗺️ Routes
+    </button>
+</div>
