@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Photo Moderation | British Railway DB</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="community.css">
+
+    <style>
+        [hidden] {
+            display: none !important;
+        }
+
+        .admin-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+            padding: 22px;
+        }
+
+        .admin-summary h2 {
+            margin: 4px 0 0;
+        }
+
+        .admin-count {
+            padding: 10px 16px;
+            color: var(--gold);
+            background: var(--gold-soft);
+            border: 1px solid rgba(244, 196, 0, 0.3);
+            border-radius: 999px;
+            font-weight: 900;
+        }
+
+        .admin-photo-list {
+            display: grid;
+            gap: 26px;
+        }
+
+        .admin-photo-card {
+            display: grid;
+            grid-template-columns:
+                minmax(320px, 1fr)
+                minmax(280px, 0.8fr);
+            overflow: hidden;
+        }
+
+        .admin-photo-image {
+            min-height: 380px;
+            background: rgba(3, 9, 15, 0.8);
+        }
+
+        .admin-photo-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+            max-height: 620px;
+            object-fit: contain;
+        }
+
+        .admin-photo-details {
+            padding: 28px;
+        }
+
+        .admin-photo-details h2 {
+            margin: 8px 0 16px;
+            font-size: 30px;
+        }
+
+        .admin-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+            margin: 20px 0;
+        }
+
+        .admin-detail {
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 13px;
+        }
+
+        .admin-detail strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--gold);
+            font-size: 13px;
+        }
+
+        .admin-detail span {
+            overflow-wrap: anywhere;
+            color: var(--text-soft);
+        }
+
+        .admin-description {
+            margin: 18px 0;
+            padding: 16px;
+            color: var(--text-soft);
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 4px solid var(--gold);
+            border-radius: 10px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .admin-note-label {
+            display: block;
+            margin: 20px 0 8px;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .admin-note {
+            width: 100%;
+            min-height: 95px;
+            padding: 13px 14px;
+            color: var(--text);
+            background: rgba(4, 11, 18, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 13px;
+            resize: vertical;
+            font: inherit;
+        }
+
+        .admin-note:focus {
+            outline: none;
+            border-color: rgba(244, 196, 0, 0.75);
+            box-shadow: 0 0 0 4px rgba(244, 196, 0, 0.1);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .admin-action-button {
+            flex: 1;
+            min-height: 48px;
+            padding: 12px 17px;
+            border: 0;
+            border-radius: 13px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 900;
+        }
+
+        .admin-action-button:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .admin-approve {
+            color: #07130b;
+            background: #4ddd83;
+        }
+
+        .admin-reject {
+            color: #ffffff;
+            background: #c63e48;
+        }
+
+        .admin-empty,
+        .admin-error,
+        .admin-loading {
+            padding: 38px;
+            text-align: center;
+        }
+
+        .admin-error {
+            color: #ffd1d1;
+        }
+
+        @media (max-width: 850px) {
+            .admin-photo-card {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-photo-image,
+            .admin-photo-image img {
+                min-height: 250px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .admin-summary {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .admin-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark brand-logo">
+                    <img
+                        src="brdb-logo.png"
+                        alt="British Railway DB logo"
+                    >
+                </div>
+
+                <div>
+                    <h1>British Railway DB</h1>
+                    <p>Unofficial Roblox British Railway database</p>
+                </div>
+            </div>
+
+            <nav class="top-nav" aria-label="Main navigation">
+                <details class="page-menu">
+                    <summary>
+                        Pages
+                        <span aria-hidden="true">▼</span>
+                    </summary>
+
+                    <div class="page-menu-panel">
+                        <a href="index.html">Home</a>
+                        <a href="trains.html">Rolling Stock</a>
+                        <a href="routes.html">Routes</a>
+                        <a href="weekly.html">Weekly Items</a>
+                        <a href="community.html">Community Photos</a>
+                        <a href="submit-photo.html">Submit a Photo</a>
+                        <a href="account.html">My Account</a>
+
+                        <a
+                            href="admin-photos.html"
+                            class="current"
+                        >
+                            Photo Moderation
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-banner">
+            <div>
+                <span class="eyebrow">
+                    BRDB administration
+                </span>
+
+                <h2>Community photo moderation</h2>
+
+                <p>
+                    Review pending community screenshots before they
+                    appear in the public gallery.
+                </p>
+            </div>
+        </section>
+
+        <section class="glass-panel admin-summary">
+            <div>
+                <span class="eyebrow">Moderation queue</span>
+                <h2>Pending submissions</h2>
+            </div>
+
+            <span id="pendingCount" class="admin-count">
+                Loading…
+            </span>
+        </section>
+
+        <section
+            id="adminLoading"
+            class="glass-panel admin-loading"
+        >
+            <div class="account-spinner" aria-hidden="true"></div>
+            <h3>Loading submissions…</h3>
+        </section>
+
+        <section
+            id="adminError"
+            class="glass-panel admin-error"
+            hidden
+        ></section>
+
+        <section
+            id="adminEmpty"
+            class="glass-panel admin-empty"
+            hidden
+        >
+            <span class="eyebrow">Queue clear</span>
+            <h2>No pending photos 🎉</h2>
+
+            <p>
+                New community submissions will appear here.
+            </p>
+        </section>
+
+        <section
+            id="adminPhotoList"
+            class="admin-photo-list"
+        ></section>
+
+        <section class="notice-card">
+            <strong>Admin-only page:</strong>
+            review decisions are connected to your signed-in BRDB
+            administrator account.
+        </section>
+    </main>
+
+    <script src="site.js"></script>
+
+    <script>
+        (function () {
+            "use strict";
+
+            var API_BASE =
+                "https://brbd-accounts.mrducktive.workers.dev";
+
+            var loading =
+                document.getElementById("adminLoading");
+
+            var errorPanel =
+                document.getElementById("adminError");
+
+            var emptyPanel =
+                document.getElementById("adminEmpty");
+
+            var list =
+                document.getElementById("adminPhotoList");
+
+            var count =
+                document.getElementById("pendingCount");
+
+            var pendingTotal = 0;
+
+            function hide(element) {
+                element.hidden = true;
+                element.style.display = "none";
+            }
+
+            function show(element, displayType) {
+                element.hidden = false;
+                element.style.display = displayType || "";
+            }
+
+            function request(path, options) {
+                var settings = options || {};
+
+                settings.credentials = "include";
+                settings.cache = "no-store";
+
+                return fetch(
+                    API_BASE + path,
+                    settings
+                ).then(function (response) {
+                    return response.text().then(function (text) {
+                        var data = {};
+
+                        if (text) {
+                            try {
+                                data = JSON.parse(text);
+                            } catch (error) {
+                                throw new Error(
+                                    "The server returned invalid data."
+                                );
+                            }
+                        }
+
+                        if (!response.ok || data.ok === false) {
+                            var problem = new Error(
+                                data.error || "The request failed."
+                            );
+
+                            problem.status = response.status;
+                            throw problem;
+                        }
+
+                        return data;
+                    });
+                });
+            }
+
+            function updateCount() {
+                count.textContent =
+                    pendingTotal === 1
+                        ? "1 pending"
+                        : pendingTotal + " pending";
+
+                if (pendingTotal === 0) {
+                    show(emptyPanel, "block");
+                } else {
+                    hide(emptyPanel);
+                }
+            }
+
+            function addDetail(grid, label, value) {
+                var box =
+                    document.createElement("div");
+
+                var heading =
+                    document.createElement("strong");
+
+                var content =
+                    document.createElement("span");
+
+                box.className = "admin-detail";
+                heading.textContent = label;
+                content.textContent =
+                    value || "Not provided";
+
+                box.appendChild(heading);
+                box.appendChild(content);
+                grid.appendChild(box);
+            }
+
+            function reviewPhoto(
+                submission,
+                action,
+                note,
+                card,
+                buttons
+            ) {
+                var confirmation =
+                    action === "approve"
+                        ? "Approve this photo?"
+                        : "Reject this photo and delete its uploaded image?";
+
+                if (!window.confirm(confirmation)) {
+                    return;
+                }
+
+                buttons.forEach(function (button) {
+                    button.disabled = true;
+                });
+
+                request(
+                    "/api/admin/photos/review",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            id: submission.id,
+                            action: action,
+                            moderator_note: note.value.trim()
+                        })
+                    }
+                )
+                    .then(function () {
+                        card.remove();
+
+                        pendingTotal -= 1;
+
+                        if (pendingTotal < 0) {
+                            pendingTotal = 0;
+                        }
+
+                        updateCount();
+                    })
+                    .catch(function (error) {
+                        window.alert(
+                            error.message ||
+                            "The review could not be saved."
+                        );
+
+                        buttons.forEach(function (button) {
+                            button.disabled = false;
+                        });
+                    });
+            }
+
+            function createCard(submission) {
+                var card =
+                    document.createElement("article");
+
+                var imageArea =
+                    document.createElement("div");
+
+                var image =
+                    document.createElement("img");
+
+                var details =
+                    document.createElement("div");
+
+                var eyebrow =
+                    document.createElement("span");
+
+                var title =
+                    document.createElement("h2");
+
+                var description =
+                    document.createElement("div");
+
+                var grid =
+                    document.createElement("div");
+
+                var noteLabel =
+                    document.createElement("label");
+
+                var note =
+                    document.createElement("textarea");
+
+                var actions =
+                    document.createElement("div");
+
+                var approve =
+                    document.createElement("button");
+
+                var reject =
+                    document.createElement("button");
+
+                card.className =
+                    "glass-panel admin-photo-card";
+
+                card.dataset.submissionId =
+                    String(submission.id);
+
+                imageArea.className =
+                    "admin-photo-image";
+
+                image.src = submission.photo_url;
+                image.alt =
+                    submission.title +
+                    " — submitted community screenshot";
+
+                imageArea.appendChild(image);
+
+                details.className =
+                    "admin-photo-details";
+
+                eyebrow.className = "eyebrow";
+                eyebrow.textContent =
+                    "Submission #" + submission.id;
+
+                title.textContent = submission.title;
+
+                description.className =
+                    "admin-description";
+
+                description.textContent =
+                    submission.description ||
+                    "No description was provided.";
+
+                grid.className =
+                    "admin-detail-grid";
+
+                addDetail(
+                    grid,
+                    "Train class",
+                    submission.train_class
+                );
+
+                addDetail(
+                    grid,
+                    "Location",
+                    submission.location
+                );
+
+                addDetail(
+                    grid,
+                    "Photographer credit",
+                    submission.photographer_credit
+                );
+
+                addDetail(
+                    grid,
+                    "Submitted",
+                    submission.created_at
+                );
+
+                addDetail(
+                    grid,
+                    "File",
+                    submission.original_filename
+                );
+
+                addDetail(
+                    grid,
+                    "Discord ID",
+                    submission.discord_id
+                );
+
+                noteLabel.className =
+                    "admin-note-label";
+
+                noteLabel.textContent =
+                    "Moderator note";
+
+                note.id =
+                    "moderatorNote" + submission.id;
+
+                note.className = "admin-note";
+                note.maxLength = 300;
+
+                note.placeholder =
+                    "Optional reason or internal note…";
+
+                noteLabel.htmlFor = note.id;
+
+                actions.className = "admin-actions";
+
+                approve.type = "button";
+                approve.className =
+                    "admin-action-button admin-approve";
+
+                approve.textContent = "Approve";
+
+                reject.type = "button";
+                reject.className =
+                    "admin-action-button admin-reject";
+
+                reject.textContent = "Reject";
+
+                var buttons = [approve, reject];
+
+                approve.addEventListener(
+                    "click",
+                    function () {
+                        reviewPhoto(
+                            submission,
+                            "approve",
+                            note,
+                            card,
+                            buttons
+                        );
+                    }
+                );
+
+                reject.addEventListener(
+                    "click",
+                    function () {
+                        reviewPhoto(
+                            submission,
+                            "reject",
+                            note,
+                            card,
+                            buttons
+                        );
+                    }
+                );
+
+                actions.appendChild(approve);
+                actions.appendChild(reject);
+
+                details.appendChild(eyebrow);
+                details.appendChild(title);
+                details.appendChild(description);
+                details.appendChild(grid);
+                details.appendChild(noteLabel);
+                details.appendChild(note);
+                details.appendChild(actions);
+
+                card.appendChild(imageArea);
+                card.appendChild(details);
+
+                return card;
+            }
+
+            function loadPendingPhotos() {
+                hide(errorPanel);
+                hide(emptyPanel);
+                show(loading, "block");
+
+                request("/api/admin/photos/pending")
+                    .then(function (data) {
+                        hide(loading);
+
+                        list.textContent = "";
+
+                        var submissions =
+                            Array.isArray(data.submissions)
+                                ? data.submissions
+                                : [];
+
+                        pendingTotal = submissions.length;
+                        updateCount();
+
+                        submissions.forEach(function (submission) {
+                            list.appendChild(
+                                createCard(submission)
+                            );
+                        });
+                    })
+                    .catch(function (error) {
+                        hide(loading);
+
+                        errorPanel.textContent =
+                            error.status === 403
+                                ? "Your BRDB account is not an administrator."
+                                : error.status === 401
+                                    ? "Sign into your BRDB account before opening this page."
+                                    : error.message;
+
+                        show(errorPanel, "block");
+                        count.textContent = "Unavailable";
+                    });
+            }
+
+            loadPendingPhotos();
+        }());
+    </script>
+</body>
+</html>
