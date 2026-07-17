@@ -1,0 +1,438 @@
+/* British Railway DB — My Collection */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.collection-hero {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.25fr)
+        minmax(300px, 0.75fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.collection-hero-main,
+.collection-progress-card,
+.collection-stat-card,
+.collection-controls,
+.collection-message,
+.collection-card {
+    background: rgba(11, 22, 33, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+}
+
+.collection-hero-main,
+.collection-progress-card {
+    padding: 28px;
+    border-radius: 26px;
+}
+
+.collection-hero-main h2 {
+    margin: 8px 0 12px;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -0.04em;
+}
+
+.collection-hero-main p {
+    max-width: 720px;
+    margin: 0;
+    color: var(--text-soft);
+    line-height: 1.7;
+    font-size: 17px;
+}
+
+.collection-storage-notice {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(244, 196, 0, 0.25);
+    background: rgba(244, 196, 0, 0.08);
+    color: var(--text-soft);
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.collection-progress-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.collection-progress-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.collection-progress-top span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.collection-progress-top strong {
+    display: block;
+    margin-top: 8px;
+    font-size: clamp(34px, 5vw, 50px);
+}
+
+.collection-progress-ring {
+    width: 106px;
+    height: 106px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            var(--gold) 0%,
+            rgba(255, 255, 255, 0.08) 0%
+        );
+    position: relative;
+}
+
+.collection-progress-ring::before {
+    content: "";
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #0d1924;
+}
+
+.collection-progress-ring span {
+    position: relative;
+    z-index: 1;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.collection-progress-track {
+    width: 100%;
+    height: 12px;
+    margin-top: 24px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.collection-progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        #f4c400,
+        #ffe567
+    );
+    transition: width 0.3s ease;
+}
+
+.collection-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.collection-stat-card {
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.collection-stat-card span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.collection-stat-card strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 34px;
+}
+
+.collection-controls {
+    padding: 18px;
+    border-radius: 22px;
+}
+
+.collection-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.collection-tab {
+    appearance: none;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-soft);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.collection-tab:hover,
+.collection-tab:focus,
+.collection-tab.active {
+    border-color: rgba(244, 196, 0, 0.34);
+    background: rgba(244, 196, 0, 0.14);
+    color: var(--text);
+    outline: none;
+}
+
+.collection-filters {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(170px, 220px)
+        auto;
+    gap: 12px;
+}
+
+.collection-search input,
+.collection-filters select {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(3, 10, 16, 0.65);
+    color: var(--text);
+    font: inherit;
+}
+
+.collection-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.collection-search input:focus,
+.collection-filters select:focus {
+    border-color: rgba(244, 196, 0, 0.5);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(244, 196, 0, 0.1);
+}
+
+.collection-reset-button {
+    min-height: 48px;
+    padding: 12px 17px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 105, 105, 0.28);
+    background: rgba(255, 105, 105, 0.08);
+    color: #ffd5d5;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.collection-reset-button:hover,
+.collection-reset-button:focus {
+    background: rgba(255, 105, 105, 0.16);
+    outline: none;
+}
+
+.collection-message {
+    padding: 18px;
+    border-radius: 18px;
+    color: var(--text-soft);
+    text-align: center;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.collection-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 20px;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.collection-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(244, 196, 0, 0.25);
+}
+
+.collection-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.collection-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.collection-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px;
+}
+
+.collection-card-content h3 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.collection-card-content p {
+    margin: 7px 0 16px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.collection-card-actions {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: auto;
+}
+
+.collection-action-button {
+    padding: 11px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-soft);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.collection-action-button:hover,
+.collection-action-button:focus {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    outline: none;
+}
+
+.collection-action-button.owned.active {
+    border-color: rgba(72, 211, 138, 0.4);
+    background: rgba(72, 211, 138, 0.15);
+    color: #baffd6;
+}
+
+.collection-action-button.wishlist.active {
+    border-color: rgba(244, 196, 0, 0.4);
+    background: rgba(244, 196, 0, 0.14);
+    color: #ffe982;
+}
+
+.collection-card-status {
+    margin-top: 12px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.collection-card[data-status="owned"]
+.collection-card-status {
+    background: rgba(72, 211, 138, 0.1);
+    color: #baffd6;
+}
+
+.collection-card[data-status="wishlist"]
+.collection-card-status {
+    background: rgba(244, 196, 0, 0.1);
+    color: #ffe982;
+}
+
+.collection-empty {
+    grid-column: 1 / -1;
+    padding: 36px 20px;
+    border-radius: 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .collection-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .collection-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .collection-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .collection-hero-main,
+    .collection-progress-card {
+        padding: 22px;
+    }
+
+    .collection-progress-top {
+        align-items: flex-start;
+    }
+
+    .collection-progress-ring {
+        width: 88px;
+        height: 88px;
+    }
+
+    .collection-progress-ring::before {
+        width: 64px;
+        height: 64px;
+    }
+
+    .collection-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .collection-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 430px) {
+    .collection-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .collection-card-actions {
+        grid-template-columns: 1fr;
+    }
+}
