@@ -195,71 +195,85 @@
 
     function wikiSource(image) {
         if (!image) {
-            return "";
-        }
+   function wikiSource(image) {
+    if (!image) {
+        return "";
+    }
 
-        var fileName =
-            image.getAttribute(
-                "data-image-name"
-            ) ||
-            image.getAttribute(
-                "data-image-key"
-            ) ||
-            "";
+    var fileName =
+        image.getAttribute("data-image-name") ||
+        image.getAttribute("data-image-key") ||
+        "";
 
-        var parent =
-            image.parentNode;
+    var parent = image.parentNode;
+
+    if (
+        !fileName &&
+        parent &&
+        parent.getAttribute
+    ) {
+        var href =
+            parent.getAttribute("href") || "";
+
+        href =
+            href.split("?")[0]
+                .split("#")[0];
+
+        var fileMarker =
+            "/wiki/File:";
+
+        var normalMarker =
+            "/wiki/";
 
         if (
-            !fileName &&
-            parent &&
-            parent.getAttribute
+            href.indexOf(fileMarker) !==wiki/";
+
+        if (
+            href.indexOf(fileMarker) !== -1
         ) {
-            var href =
-                parent.getAttribute(
-                    "href"
-                ) || "";
+            fileName =
+                href.substring(
+                    href.indexOf(fileMarker) +
+                    fileMarker.length
+                );
+        } else if (
+            href.indexOf(normalMarker) !== -1
+        ) {
+            var possibleName =
+                href.substring(
+                    href.indexOf(normalMarker) +
+                    normalMarker.length
+                );
 
-            var marker =
-                "/wiki/File:";
-
-            var position =
-                href.indexOf(marker);
-
-            if (position !== -1) {
-                fileName =
-                    href.substring(
-                        position +
-                        marker.length
-                    ).split("?")[0];
-
-                try {
-                    fileName =
-                        decodeURIComponent(
-                            fileName
-                        );
-                } catch (error) {
-                    /*
-                    Keep the original
-                    filename.
-                    */
-                }
+            if (
+                /\.(png|jpg|jpeg|gif|webp)$/i
+                    .test(possibleName)
+            ) {
+                fileName = possibleName;
             }
         }
 
         if (fileName) {
-            return (
-                REDIRECT +
-                encodeURIComponent(
-                    clean(fileName)
-                )
-            );
+            try {
+                fileName =
+                    decodeURIComponent(fileName);
+            } catch (error) {
+                // Keep original filename.
+            }
         }
-
-        return directSource(image);
     }
 
-    function headingIndex(
+    if (fileName) {
+        return (
+            REDIRECT +
+            encodeURIComponent(
+                clean(fileName)
+            )
+        );
+    }
+
+    return directSource(image);
+}
         cells,
         choices
     ) {
