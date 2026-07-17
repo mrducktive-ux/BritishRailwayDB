@@ -16,18 +16,13 @@
         "index";
 
     if (body) {
-        body.setAttribute(
-            "data-page",
-            pageName
-        );
+        body.setAttribute("data-page", pageName);
 
         if (
             /^(class\d+|mark\d+|mark2coaches|mark2dbso|mark3coaches|mark3dvt)$/i
                 .test(pageName)
         ) {
-            body.classList.add(
-                "page-stock-detail"
-            );
+            body.classList.add("page-stock-detail");
         }
     }
 
@@ -36,11 +31,37 @@
             ".page-menu-panel"
         );
 
+    function ensureLink(
+        panel,
+        href,
+        text
+    ) {
+        var link =
+            panel.querySelector(
+                'a[href="' + href + '"]'
+            );
+
+        if (!link) {
+            link =
+                document.createElement("a");
+
+            link.href = href;
+            link.textContent = text;
+
+            panel.appendChild(link);
+        }
+
+        return link;
+    }
+
     function markCurrentPage(panel) {
         var links =
             panel.querySelectorAll("a");
 
         links.forEach(function (link) {
+            link.classList.remove("current");
+            link.removeAttribute("aria-current");
+
             var href =
                 (
                     link.getAttribute("href") ||
@@ -59,25 +80,23 @@
     }
 
     panels.forEach(function (panel) {
-        var accountLink =
-            panel.querySelector(
-                'a[href="account.html"]'
-            );
+        ensureLink(
+            panel,
+            "community.html",
+            "Community Photos"
+        );
 
-        if (!accountLink) {
-            accountLink =
-                document.createElement("a");
+        ensureLink(
+            panel,
+            "submit-photo.html",
+            "Submit a Photo"
+        );
 
-            accountLink.href =
-                "account.html";
-
-            accountLink.textContent =
-                "My Account";
-
-            panel.appendChild(
-                accountLink
-            );
-        }
+        ensureLink(
+            panel,
+            "account.html",
+            "My Account"
+        );
 
         markCurrentPage(panel);
     });
@@ -85,24 +104,11 @@
     function showStaffLinks() {
         panels.forEach(function (panel) {
             var staffLink =
-                panel.querySelector(
-                    'a[href="admin-photos.html"]'
+                ensureLink(
+                    panel,
+                    "admin-photos.html",
+                    "Staff Panel"
                 );
-
-            if (!staffLink) {
-                staffLink =
-                    document.createElement("a");
-
-                staffLink.href =
-                    "admin-photos.html";
-
-                staffLink.textContent =
-                    "Staff Panel";
-
-                panel.appendChild(
-                    staffLink
-                );
-            }
 
             staffLink.hidden = false;
             staffLink.style.display = "";
@@ -136,8 +142,7 @@
             }
         })
         .catch(function () {
-            // Stay hidden when signed out
-            // or when the API is unavailable.
+            // Admin link stays hidden.
         });
 
     var menus =
@@ -149,12 +154,8 @@
         "click",
         function (event) {
             menus.forEach(function (menu) {
-                if (
-                    !menu.contains(event.target)
-                ) {
-                    menu.removeAttribute(
-                        "open"
-                    );
+                if (!menu.contains(event.target)) {
+                    menu.removeAttribute("open");
                 }
             });
         }
@@ -164,13 +165,9 @@
         "keydown",
         function (event) {
             if (event.key === "Escape") {
-                menus.forEach(
-                    function (menu) {
-                        menu.removeAttribute(
-                            "open"
-                        );
-                    }
-                );
+                menus.forEach(function (menu) {
+                    menu.removeAttribute("open");
+                });
             }
         }
     );
