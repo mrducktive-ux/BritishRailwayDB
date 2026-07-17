@@ -1,82 +1,144 @@
 (function () {
     "use strict";
 
-    var STORAGE_KEY = "brdbCollectionV1";
+    var COLLECTION_KEY = "brdbCollectionV2";
+    var OLD_KEY = "brdbCollectionV1";
+    var COIN_KEY = "brdbCoinBalanceV1";
 
-    var grid =
-        document.getElementById("collectionGrid");
+    var categories = [
+        "trains",
+        "liveries",
+        "weekly",
+        "routes"
+    ];
 
-    var message =
-        document.getElementById("collectionMessage");
+    var data = window.BRDB_COLLECTION_DATA;
+    var activeType = "trains";
+    var groups = {};
+    var allItems = [];
 
-    var searchInput =
-        document.getElementById("collectionSearch");
+    function byId(id) {
+        return document.getElementById(id);
+    }
 
-    var statusFilter =
-        document.getElementById("collectionStatusFilter");
-
-    var resetButton =
-        document.getElementById("resetCollectionButton");
-
-    var percentageText =
-        document.getElementById("collectionPercentage");
-
-    var ringText =
-        document.getElementById("collectionRingText");
-
-    var progressRing =
-        document.getElementById("collectionProgressRing");
-
-    var progressFill =
-        document.getElementById("collectionProgressFill");
-
-    var ownedCount =
-        document.getElementById("ownedCount");
-
-    var wishlistCount =
-        document.getElementById("wishlistCount");
-
-    var missingCount =
-        document.getElementById("missingCount");
-
-    var totalCount =
-        document.getElementById("totalCount");
+    var grid = byId("collectionGrid");
+    var message = byId("collectionMessage");
+    var searchInput = byId("collectionSearch");
+    var statusFilter = byId("collectionStatusFilter");
+    var resetButton = byId("resetCollectionButton");
+    var coinInput = byId("currentCoinsInput");
 
     var tabs =
         document.querySelectorAll(".collection-tab");
 
-    var items = {
-        trains: [],
-        routes: []
+    var ui = {
+        percentage:
+            byId("collectionPercentage"),
+
+        ringText:
+            byId("collectionRingText"),
+
+        ring:
+            byId("collectionProgressRing"),
+
+        progress:
+            byId("collectionProgressFill"),
+
+        owned:
+            byId("ownedCount"),
+
+        wishlist:
+            byId("wishlistCount"),
+
+        missing:
+            byId("missingCount"),
+
+        total:
+            byId("totalCount"),
+
+        cost:
+            byId("wishlistCost"),
+
+        needed:
+            byId("coinsNeeded"),
+
+        remaining:
+            byId("coinsRemaining"),
+
+        affordCard:
+            byId("affordabilityCard"),
+
+        affordStatus:
+            byId("affordabilityStatus"),
+
+        affordMessage:
+            byId("affordabilityMessage")
     };
 
-    var activeType = "trains";
-    var collection = loadCollection();
-
-    function loadCollection() {
+    function readJson(key) {
         try {
-            var saved =
-                localStorage.getItem(STORAGE_KEY);
+            var value =
+                localStorage.getItem(key);
 
-            if (!saved) {
-                return {};
-            }
-
-            return JSON.parse(saved) || {};
+            return value
+                ? JSON.parse(value)
+                : null;
         } catch (error) {
-            return {};
+            return null;
         }
+    }
+
+    var collection =
+        readJson(COLLECTION_KEY);
+
+    if (
+        !collection ||
+        typeof collection !== "object"
+    ) {
+        collection =
+            readJson(OLD_KEY) || {};
+    }
+
+    var currentCoins = 0;
+
+    try {
+        currentCoins = parseInt(
+            localStorage.getItem(COIN_KEY),
+            10
+        );
+    } catch (error) {
+        currentCoins = 0;
+    }
+
+    if (
+        isNaN(currentCoins) ||
+        currentCoins < 0
+    ) {
+        currentCoins = 0;
     }
 
     function saveCollection() {
         try {
             localStorage.setItem(
-                STORAGE_KEY,
+                COLLECTION_KEY,
                 JSON.stringify(collection)
             );
         } catch (error) {
             showMessage(
                 "Your browser could not save your collection."
+            );
+        }
+    }
+
+    function saveCoins() {
+        try {
+            localStorage.setItem(
+                COIN_KEY,
+                String(currentCoins)
+            );
+        } catch (error) {
+            showMessage(
+                "Your browser could not save your coin balance."
             );
         }
     }
@@ -96,164 +158,163 @@
         }
     }
 
-    function cleanText(value) {
-        return String(value || "")
-            .replace(/\s+/g, " ")
-            .trim();
+    function formatNumber(value) {
+        var number = Math.max(
+            0,
+            Math.round(
+                Number(value) || 0
+            )
+        );
+
+        return String(number).replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            ","
+        );
     }
 
-    function slugify(value) {
-        return cleanText(value)
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "");
+    function categoryName(category) {
+        var names = {
+            trains: "Train",
+            liveries: "Livery",
+            weekly: "Weekly / event item",
+            routes: "Route pack"
+        };
+
+        return names[category] || "Item";
     }
 
-    function getText(element, selector, fallback) {
-        var found =
-            element.querySelector(selector);
+    function categoryEmoji(category) {
+        var emojis = {
+            trains: "🚆",
+            liveries: "🎨",
+            weekly: "⭐",
+            routes: "🗺️"
+        };
 
-        if (!found) {
-            return fallback || "";
-        }
-
-        return cleanText(found.textContent);
+        return emojis[category] || "📦";
     }
 
-    function loadPage(filename) {
-        return fetch(filename, {
-            method: "GET",
-            cache: "no-store"
-        }).then(function (response) {
-            if (!response.ok) {
-                throw new Error(
-                    "Could not load " + filename
+    function buildDatabase() {
+        groups = {};
+        allItems = [];
+
+        categories.forEach(
+            function (category) {
+                var categoryItems =
+                    data[category] || [];
+
+                categoryItems.forEach(
+                    function (item) {
+                        var group;
+
+                        allItems.push(item);
+
+                        if (
+                            !groups[
+                                item.purchaseId
+                            ]
+                        ) {
+                            groups[
+                                item.purchaseId
+                            ] = {
+                                items: [],
+                                price:
+                                    item.price,
+                                priceType:
+                                    item.priceType,
+                                requires: []
+                            };
+                        }
+
+                        group =
+                            groups[
+                                item.purchaseId
+                            ];
+
+                        group.items.push(item);
+
+                        if (
+                            item.priceType ===
+                            "coins"
+                        ) {
+                            group.price =
+                                item.price;
+
+                            group.priceType =
+                                "coins";
+                        }
+
+                        (
+                            item.requires || []
+                        ).forEach(
+                            function (
+                                requirement
+                            ) {
+                                if (
+                                    group.requires
+                                        .indexOf(
+                                            requirement
+                                        ) === -1
+                                ) {
+                                    group.requires
+                                        .push(
+                                            requirement
+                                        );
+                                }
+                            }
+                        );
+                    }
                 );
             }
-
-            return response.text();
-        });
-    }
-
-    function parseTrains(html) {
-        var page =
-            new DOMParser().parseFromString(
-                html,
-                "text/html"
-            );
-
-        var cards =
-            page.querySelectorAll(".train-card");
-
-        return Array.prototype.map.call(
-            cards,
-            function (card) {
-                var name =
-                    getText(
-                        card,
-                        "h3",
-                        "Unknown train"
-                    );
-
-                var description =
-                    getText(
-                        card,
-                        ".train-content p",
-                        "Rolling stock"
-                    );
-
-                var image =
-                    card.querySelector("img");
-
-                var href =
-                    card.getAttribute("href") ||
-                    "trains.html";
-
-                return {
-                    id:
-                        "train-" +
-                        slugify(href || name),
-
-                    name: name,
-
-                    description:
-                        description,
-
-                    image:
-                        image
-                            ? image.getAttribute("src")
-                            : "",
-
-                    type: "trains"
-                };
-            }
         );
+
+        migrateOldStatuses();
     }
 
-    function parseRoutes(html) {
-        var page =
-            new DOMParser().parseFromString(
-                html,
-                "text/html"
-            );
+    function migrateOldStatuses() {
+        var changed = false;
 
-        var cards =
-            page.querySelectorAll(".route-card");
+        allItems.forEach(
+            function (item) {
+                if (
+                    !collection[
+                        item.purchaseId
+                    ] &&
+                    collection[item.id]
+                ) {
+                    collection[
+                        item.purchaseId
+                    ] =
+                        collection[item.id];
 
-        return Array.prototype.map.call(
-            cards,
-            function (card) {
-                var name =
-                    getText(
-                        card,
-                        "h3",
-                        "Unknown route"
-                    );
-
-                var price =
-                    getText(
-                        card,
-                        ".route-price",
-                        "Route pack"
-                    );
-
-                var note =
-                    getText(
-                        card,
-                        ".route-note",
-                        ""
-                    );
-
-                var description = price;
-
-                if (note) {
-                    description +=
-                        " — " + note;
+                    changed = true;
                 }
-
-                return {
-                    id:
-                        "route-" +
-                        slugify(name),
-
-                    name: name,
-
-                    description:
-                        description,
-
-                    image: "",
-
-                    type: "routes"
-                };
             }
+        );
+
+        if (changed) {
+            saveCollection();
+        }
+    }
+
+    function statusFor(item) {
+        return (
+            collection[
+                item.purchaseId
+            ] ||
+            collection[item.id] ||
+            "missing"
         );
     }
 
-    function getStatus(item) {
-        return collection[item.id] || "missing";
+    function groupStatus(purchaseId) {
+        return (
+            collection[purchaseId] ||
+            "missing"
+        );
     }
 
-    function getStatusText(status) {
+    function statusLabel(status) {
         if (status === "owned") {
             return "Owned";
         }
@@ -265,88 +326,247 @@
         return "Not owned";
     }
 
-    function changeStatus(item, newStatus) {
-        var currentStatus =
-            getStatus(item);
+    function changeStatus(
+        item,
+        newStatus
+    ) {
+        var group =
+            groups[item.purchaseId];
 
-        if (currentStatus === newStatus) {
-            delete collection[item.id];
+        var current =
+            groupStatus(
+                item.purchaseId
+            );
+
+        if (group) {
+            group.items.forEach(
+                function (groupItem) {
+                    delete collection[
+                        groupItem.id
+                    ];
+                }
+            );
+        }
+
+        if (current === newStatus) {
+            delete collection[
+                item.purchaseId
+            ];
         } else {
-            collection[item.id] =
-                newStatus;
+            collection[
+                item.purchaseId
+            ] = newStatus;
         }
 
         saveCollection();
-        updateStats();
-        render();
+        updateAll();
     }
 
-    function createImage(item) {
-        var imageBox =
-            document.createElement("div");
+    function groupName(purchaseId) {
+        var group =
+            groups[purchaseId];
 
-        imageBox.className =
-            "collection-card-image";
+        if (
+            !group ||
+            !group.items.length
+        ) {
+            return purchaseId;
+        }
 
-        if (item.image) {
-            var image =
-                document.createElement("img");
+        if (group.items.length === 1) {
+            return group.items[0].name;
+        }
 
-            image.src = item.image;
-
-            image.alt =
-                item.name +
-                " in Roblox British Railway";
-
-            image.loading = "lazy";
-
-            imageBox.appendChild(image);
-        } else {
-            var placeholder =
-                document.createElement("div");
-
-            placeholder.textContent = "🗺️";
-
-            placeholder.setAttribute(
-                "aria-hidden",
-                "true"
-            );
-
-            placeholder.style.height =
-                "100%";
-
-            placeholder.style.display =
-                "grid";
-
-            placeholder.style.placeItems =
-                "center";
-
-            placeholder.style.fontSize =
-                "52px";
-
-            placeholder.style.background =
-                "linear-gradient(135deg, " +
-                "rgba(51,174,245,0.12), " +
-                "rgba(244,196,0,0.10))";
-
-            imageBox.appendChild(
-                placeholder
+        if (group.items.length === 2) {
+            return (
+                group.items[0].name +
+                " + " +
+                group.items[1].name
             );
         }
 
-        return imageBox;
+        return (
+            group.items[0].name +
+            " + " +
+            (
+                group.items.length - 1
+            ) +
+            " more"
+        );
     }
 
-    function createButton(
+    function getPrice(item) {
+        if (
+            item.priceType ===
+            "coins"
+        ) {
+            return {
+                text:
+                    "🪙 " +
+                    formatNumber(
+                        item.price
+                    ) +
+                    " coins",
+
+                type: "coins"
+            };
+        }
+
+        if (
+            item.priceType ===
+            "free"
+        ) {
+            return {
+                text: "Free",
+                type: "free"
+            };
+        }
+
+        if (
+            item.priceType ===
+            "unavailable"
+        ) {
+            return {
+                text: "Unavailable",
+                type: "unavailable"
+            };
+        }
+
+        return {
+            text:
+                "Event unlock / unavailable",
+
+            type: "unlock"
+        };
+    }
+
+    function makeBadge(
+        text,
+        className,
+        priceType
+    ) {
+        var badge =
+            document.createElement(
+                "span"
+            );
+
+        badge.className =
+            className;
+
+        badge.textContent =
+            text;
+
+        if (priceType) {
+            badge.setAttribute(
+                "data-price-type",
+                priceType
+            );
+        }
+
+        return badge;
+    }
+
+    function makeImage(item) {
+        var box =
+            document.createElement(
+                "div"
+            );
+
+        var placeholder =
+            document.createElement(
+                "div"
+            );
+
+        var emoji =
+            document.createElement(
+                "span"
+            );
+
+        var label =
+            document.createElement(
+                "small"
+            );
+
+        box.className =
+            "collection-card-image";
+
+        placeholder.style.height =
+            "100%";
+
+        placeholder.style.display =
+            "grid";
+
+        placeholder.style.placeItems =
+            "center";
+
+        placeholder.style.alignContent =
+            "center";
+
+        placeholder.style.gap =
+            "8px";
+
+        placeholder.style.background =
+            "linear-gradient(" +
+            "135deg, " +
+            "rgba(51,174,245,0.12), " +
+            "rgba(244,196,0,0.10)" +
+            ")";
+
+        emoji.textContent =
+            categoryEmoji(
+                item.category
+            );
+
+        emoji.style.fontSize =
+            "54px";
+
+        emoji.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        label.textContent =
+            categoryName(
+                item.category
+            );
+
+        label.style.color =
+            "var(--text-muted)";
+
+        label.style.fontWeight =
+            "800";
+
+        label.style.textTransform =
+            "uppercase";
+
+        placeholder.appendChild(
+            emoji
+        );
+
+        placeholder.appendChild(
+            label
+        );
+
+        box.appendChild(
+            placeholder
+        );
+
+        return box;
+    }
+
+    function makeButton(
         item,
         status,
         label
     ) {
         var button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         var active =
-            getStatus(item) === status;
+            statusFor(item) ===
+            status;
 
         button.type = "button";
 
@@ -354,36 +574,94 @@
             "collection-action-button " +
             status;
 
-        button.textContent = label;
+        button.textContent =
+            label;
 
         button.setAttribute(
             "aria-pressed",
-            active ? "true" : "false"
+            active
+                ? "true"
+                : "false"
         );
 
         if (active) {
-            button.classList.add("active");
+            button.classList.add(
+                "active"
+            );
         }
 
-        button.addEventListener(
-            "click",
-            function () {
-                changeStatus(
-                    item,
-                    status
-                );
-            }
-        );
+        if (
+            status === "wishlist" &&
+            (
+                item.priceType ===
+                    "unlock" ||
+                item.priceType ===
+                    "unavailable"
+            )
+        ) {
+            button.disabled = true;
+
+            button.textContent =
+                "Unavailable";
+        } else {
+            button.addEventListener(
+                "click",
+                function () {
+                    changeStatus(
+                        item,
+                        status
+                    );
+                }
+            );
+        }
 
         return button;
     }
 
-    function createCard(item) {
+    function makeCard(item) {
         var status =
-            getStatus(item);
+            statusFor(item);
+
+        var group =
+            groups[item.purchaseId];
+
+        var price =
+            getPrice(item);
 
         var card =
-            document.createElement("article");
+            document.createElement(
+                "article"
+            );
+
+        var content =
+            document.createElement(
+                "div"
+            );
+
+        var title =
+            document.createElement(
+                "h3"
+            );
+
+        var description =
+            document.createElement(
+                "p"
+            );
+
+        var meta =
+            document.createElement(
+                "div"
+            );
+
+        var actions =
+            document.createElement(
+                "div"
+            );
+
+        var statusBox =
+            document.createElement(
+                "div"
+            );
 
         card.className =
             "collection-card";
@@ -393,35 +671,96 @@
             status
         );
 
-        card.appendChild(
-            createImage(item)
-        );
-
-        var content =
-            document.createElement("div");
-
         content.className =
             "collection-card-content";
 
-        var title =
-            document.createElement("h3");
-
-        title.textContent = item.name;
-
-        var description =
-            document.createElement("p");
+        title.textContent =
+            item.name;
 
         description.textContent =
-            item.description;
+            item.note ||
+            item.parent ||
+            categoryName(
+                item.category
+            );
 
-        var actions =
-            document.createElement("div");
+        meta.className =
+            "collection-card-meta";
 
         actions.className =
             "collection-card-actions";
 
+        statusBox.className =
+            "collection-card-status";
+
+        statusBox.textContent =
+            statusLabel(status);
+
+        meta.appendChild(
+            makeBadge(
+                price.text,
+                "collection-card-price",
+                price.type
+            )
+        );
+
+        if (item.parent) {
+            meta.appendChild(
+                makeBadge(
+                    item.parent,
+                    "collection-card-badge"
+                )
+            );
+        }
+
+        if (
+            group &&
+            group.items.length > 1
+        ) {
+            meta.appendChild(
+                makeBadge(
+                    "Pack unlocks " +
+                        group.items.length +
+                        " items",
+
+                    "collection-card-badge"
+                )
+            );
+        }
+
+        if (
+            item.countsTowardCompletion ===
+            false
+        ) {
+            meta.appendChild(
+                makeBadge(
+                    "Not included in completion %",
+
+                    "collection-card-badge"
+                )
+            );
+        }
+
+        if (
+            item.requires &&
+            item.requires.length
+        ) {
+            meta.appendChild(
+                makeBadge(
+                    "Requires: " +
+                        item.requires
+                            .map(
+                                groupName
+                            )
+                            .join(", "),
+
+                    "collection-card-badge"
+                )
+            );
+        }
+
         actions.appendChild(
-            createButton(
+            makeButton(
                 item,
                 "owned",
                 "✓ Owned"
@@ -429,34 +768,50 @@
         );
 
         actions.appendChild(
-            createButton(
+            makeButton(
                 item,
                 "wishlist",
                 "★ Wishlist"
             )
         );
 
-        var statusBox =
-            document.createElement("div");
+        content.appendChild(
+            title
+        );
 
-        statusBox.className =
-            "collection-card-status";
+        content.appendChild(
+            description
+        );
 
-        statusBox.textContent =
-            getStatusText(status);
+        content.appendChild(
+            meta
+        );
 
-        content.appendChild(title);
-        content.appendChild(description);
-        content.appendChild(actions);
-        content.appendChild(statusBox);
+        content.appendChild(
+            actions
+        );
 
-        card.appendChild(content);
+        content.appendChild(
+            statusBox
+        );
+
+        card.appendChild(
+            makeImage(item)
+        );
+
+        card.appendChild(
+            content
+        );
 
         return card;
     }
 
     function render() {
-        if (!grid) {
+        if (
+            !grid ||
+            !data ||
+            !data[activeType]
+        ) {
             return;
         }
 
@@ -473,23 +828,27 @@
                 : "all";
 
         var visible =
-            items[activeType].filter(
+            data[activeType].filter(
                 function (item) {
-                    var itemStatus =
-                        getStatus(item);
+                    var searchable =
+                        (
+                            item.name +
+                            " " +
+                            item.parent +
+                            " " +
+                            item.note
+                        ).toLowerCase();
 
                     var searchMatches =
                         !search ||
-                        item.name
-                            .toLowerCase()
-                            .indexOf(search) !== -1 ||
-                        item.description
-                            .toLowerCase()
-                            .indexOf(search) !== -1;
+                        searchable.indexOf(
+                            search
+                        ) !== -1;
 
                     var filterMatches =
                         filter === "all" ||
-                        itemStatus === filter;
+                        statusFor(item) ===
+                            filter;
 
                     return (
                         searchMatches &&
@@ -502,7 +861,9 @@
 
         if (!visible.length) {
             var empty =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             empty.className =
                 "collection-empty";
@@ -510,101 +871,343 @@
             empty.textContent =
                 "No items match your search or filter.";
 
-            grid.appendChild(empty);
+            grid.appendChild(
+                empty
+            );
 
             return;
         }
 
-        visible.forEach(function (item) {
-            grid.appendChild(
-                createCard(item)
+        visible.forEach(
+            function (item) {
+                grid.appendChild(
+                    makeCard(item)
+                );
+            }
+        );
+    }
+
+    function calculatePlan() {
+        var selected = [];
+        var selectedLookup = {};
+        var included = {};
+        var automatic = 0;
+        var unavailable = [];
+        var cost = 0;
+
+        Object.keys(groups).forEach(
+            function (purchaseId) {
+                if (
+                    groupStatus(
+                        purchaseId
+                    ) === "wishlist"
+                ) {
+                    selected.push(
+                        purchaseId
+                    );
+
+                    selectedLookup[
+                        purchaseId
+                    ] = true;
+                }
+            }
+        );
+
+        function include(
+            purchaseId,
+            isAutomatic
+        ) {
+            var group =
+                groups[purchaseId];
+
+            if (
+                !group ||
+                included[purchaseId] ||
+                groupStatus(
+                    purchaseId
+                ) === "owned"
+            ) {
+                return;
+            }
+
+            included[
+                purchaseId
+            ] = true;
+
+            if (
+                isAutomatic &&
+                !selectedLookup[
+                    purchaseId
+                ]
+            ) {
+                automatic += 1;
+            }
+
+            if (
+                group.priceType ===
+                    "unlock" ||
+                group.priceType ===
+                    "unavailable"
+            ) {
+                unavailable.push(
+                    groupName(
+                        purchaseId
+                    )
+                );
+            }
+
+            group.requires.forEach(
+                function (
+                    requirement
+                ) {
+                    include(
+                        requirement,
+                        true
+                    );
+                }
             );
-        });
+        }
+
+        selected.forEach(
+            function (purchaseId) {
+                include(
+                    purchaseId,
+                    false
+                );
+            }
+        );
+
+        Object.keys(included).forEach(
+            function (purchaseId) {
+                var group =
+                    groups[purchaseId];
+
+                if (
+                    group &&
+                    group.priceType ===
+                        "coins" &&
+                    typeof group.price ===
+                        "number" &&
+                    group.price > 0
+                ) {
+                    cost +=
+                        group.price;
+                }
+            }
+        );
+
+        return {
+            selected:
+                selected.length,
+
+            automatic:
+                automatic,
+
+            unavailable:
+                unavailable,
+
+            cost:
+                cost
+        };
+    }
+
+    function updatePlanner() {
+        var plan =
+            calculatePlan();
+
+        var needed =
+            Math.max(
+                0,
+                plan.cost -
+                    currentCoins
+            );
+
+        var remaining =
+            Math.max(
+                0,
+                currentCoins -
+                    plan.cost
+            );
+
+        ui.cost.textContent =
+            formatNumber(
+                plan.cost
+            );
+
+        ui.needed.textContent =
+            formatNumber(
+                needed
+            );
+
+        ui.remaining.textContent =
+            formatNumber(
+                remaining
+            );
+
+        if (!plan.selected) {
+            ui.affordCard.setAttribute(
+                "data-status",
+                "empty"
+            );
+
+            ui.affordStatus.textContent =
+                "Add some items";
+
+            ui.affordMessage.textContent =
+                "Choose items you want to buy.";
+
+            return;
+        }
+
+        if (
+            plan.unavailable.length
+        ) {
+            ui.affordCard.setAttribute(
+                "data-status",
+                "needed"
+            );
+
+            ui.affordStatus.textContent =
+                "Requirement unavailable";
+
+            ui.affordMessage.textContent =
+                "A required item is currently unavailable.";
+
+            return;
+        }
+
+        if (needed === 0) {
+            ui.affordCard.setAttribute(
+                "data-status",
+                "affordable"
+            );
+
+            ui.affordStatus.textContent =
+                "You can afford it!";
+
+            ui.affordMessage.textContent =
+                plan.automatic
+                    ? "Includes " +
+                        plan.automatic +
+                        " required purchase(s)."
+                    : "Your current balance covers the wishlist.";
+
+            return;
+        }
+
+        ui.affordCard.setAttribute(
+            "data-status",
+            "needed"
+        );
+
+        ui.affordStatus.textContent =
+            formatNumber(needed) +
+            " more needed";
+
+        ui.affordMessage.textContent =
+            plan.automatic
+                ? "Total includes " +
+                    plan.automatic +
+                    " required purchase(s)."
+                : "Keep saving for your wishlist.";
     }
 
     function updateStats() {
-        var allItems =
-            items.trains.concat(
-                items.routes
+        var counted =
+            allItems.filter(
+                function (item) {
+                    return (
+                        item
+                            .countsTowardCompletion !==
+                        false
+                    );
+                }
             );
 
         var owned = 0;
         var wishlist = 0;
-
-        allItems.forEach(function (item) {
-            var status =
-                getStatus(item);
-
-            if (status === "owned") {
-                owned += 1;
-            }
-
-            if (status === "wishlist") {
-                wishlist += 1;
-            }
-        });
-
         var total =
-            allItems.length;
+            counted.length;
+
+        counted.forEach(
+            function (item) {
+                if (
+                    statusFor(item) ===
+                    "owned"
+                ) {
+                    owned += 1;
+                } else if (
+                    statusFor(item) ===
+                    "wishlist"
+                ) {
+                    wishlist += 1;
+                }
+            }
+        );
 
         var missing =
-            total - owned - wishlist;
+            Math.max(
+                0,
+                total -
+                    owned -
+                    wishlist
+            );
 
         var percentage =
-            total > 0
+            total
                 ? Math.round(
-                    owned / total * 100
+                    owned /
+                    total *
+                    100
                 )
                 : 0;
 
-        if (ownedCount) {
-            ownedCount.textContent =
-                owned;
-        }
+        ui.owned.textContent =
+            formatNumber(owned);
 
-        if (wishlistCount) {
-            wishlistCount.textContent =
-                wishlist;
-        }
+        ui.wishlist.textContent =
+            formatNumber(wishlist);
 
-        if (missingCount) {
-            missingCount.textContent =
-                missing;
-        }
+        ui.missing.textContent =
+            formatNumber(missing);
 
-        if (totalCount) {
-            totalCount.textContent =
-                total;
-        }
+        ui.total.textContent =
+            formatNumber(total);
 
-        if (percentageText) {
-            percentageText.textContent =
-                percentage + "%";
-        }
+        ui.percentage.textContent =
+            percentage + "%";
 
-        if (ringText) {
-            ringText.textContent =
-                percentage + "%";
-        }
+        ui.ringText.textContent =
+            percentage + "%";
 
-        if (progressFill) {
-            progressFill.style.width =
-                percentage + "%";
-        }
+        ui.progress.style.width =
+            percentage + "%";
 
-        if (progressRing) {
-            progressRing.style.background =
-                "conic-gradient(" +
-                "var(--gold) " +
-                percentage +
-                "%, " +
-                "rgba(255,255,255,0.08) " +
-                percentage +
-                "%)";
-        }
+        ui.ring.style.background =
+            "conic-gradient(" +
+            "var(--gold) " +
+            percentage +
+            "%, " +
+            "rgba(255,255,255,0.08) " +
+            percentage +
+            "%)";
+    }
+
+    function updateAll() {
+        updateStats();
+        updatePlanner();
+        render();
     }
 
     function selectTab(type) {
+        if (
+            categories.indexOf(
+                type
+            ) === -1
+        ) {
+            return;
+        }
+
         activeType = type;
 
         Array.prototype.forEach.call(
@@ -615,10 +1218,15 @@
                         "data-collection-type"
                     ) === type;
 
-                tab.classList.toggle(
-                    "active",
-                    selected
-                );
+                if (selected) {
+                    tab.classList.add(
+                        "active"
+                    );
+                } else {
+                    tab.classList.remove(
+                        "active"
+                    );
+                }
 
                 tab.setAttribute(
                     "aria-pressed",
@@ -632,99 +1240,126 @@
         render();
     }
 
-    Array.prototype.forEach.call(
-        tabs,
-        function (tab) {
-            tab.addEventListener(
-                "click",
+    function setUpEvents() {
+        Array.prototype.forEach.call(
+            tabs,
+            function (tab) {
+                tab.addEventListener(
+                    "click",
+                    function () {
+                        selectTab(
+                            tab.getAttribute(
+                                "data-collection-type"
+                            )
+                        );
+                    }
+                );
+            }
+        );
+
+        if (searchInput) {
+            searchInput.addEventListener(
+                "input",
+                render
+            );
+        }
+
+        if (statusFilter) {
+            statusFilter.addEventListener(
+                "change",
+                render
+            );
+        }
+
+        if (coinInput) {
+            coinInput.value =
+                String(
+                    currentCoins
+                );
+
+            coinInput.addEventListener(
+                "input",
                 function () {
-                    selectTab(
-                        tab.getAttribute(
-                            "data-collection-type"
-                        )
-                    );
+                    var value =
+                        parseInt(
+                            coinInput.value,
+                            10
+                        );
+
+                    currentCoins =
+                        !isNaN(value) &&
+                        value >= 0
+                            ? value
+                            : 0;
+
+                    saveCoins();
+                    updatePlanner();
                 }
             );
         }
-    );
 
-    if (searchInput) {
-        searchInput.addEventListener(
-            "input",
-            render
-        );
-    }
+        if (resetButton) {
+            resetButton.addEventListener(
+                "click",
+                function () {
+                    var confirmed =
+                        window.confirm(
+                            "Clear your entire collection and wishlist? " +
+                            "Your coin balance will stay saved."
+                        );
 
-    if (statusFilter) {
-        statusFilter.addEventListener(
-            "change",
-            render
-        );
-    }
+                    if (!confirmed) {
+                        return;
+                    }
 
-    if (resetButton) {
-        resetButton.addEventListener(
-            "click",
-            function () {
-                var confirmed =
-                    window.confirm(
-                        "Clear your entire collection and wishlist?"
-                    );
+                    collection = {};
 
-                if (!confirmed) {
-                    return;
+                    try {
+                        localStorage.removeItem(
+                            COLLECTION_KEY
+                        );
+
+                        localStorage.removeItem(
+                            OLD_KEY
+                        );
+                    } catch (error) {
+                        /*
+                        It still resets for
+                        this page visit.
+                        */
+                    }
+
+                    updateAll();
                 }
-
-                collection = {};
-
-                try {
-                    localStorage.removeItem(
-                        STORAGE_KEY
-                    );
-                } catch (error) {
-                    // Collection is still reset.
-                }
-
-                updateStats();
-                render();
-            }
-        );
+            );
+        }
     }
 
-    Promise.all([
-        loadPage("trains.html"),
-        loadPage("routes.html")
-    ])
-        .then(function (pages) {
-            items.trains =
-                parseTrains(pages[0]);
-
-            items.routes =
-                parseRoutes(pages[1]);
-
-            if (
-                !items.trains.length &&
-                !items.routes.length
-            ) {
-                throw new Error(
-                    "No collection items found."
-                );
-            }
-
-            hideMessage();
-            updateStats();
-            selectTab("trains");
-        })
-        .catch(function (error) {
+    function start() {
+        if (!data) {
             showMessage(
-                "The collection could not be loaded. Please refresh the page."
+                "The collection database could not be loaded. " +
+                "Please refresh the page."
             );
 
-            if (
-                window.console &&
-                console.error
-            ) {
-                console.error(error);
-            }
-        });
+            return;
+        }
+
+        buildDatabase();
+
+        if (!allItems.length) {
+            showMessage(
+                "The collection database is empty."
+            );
+
+            return;
+        }
+
+        hideMessage();
+        setUpEvents();
+        updateAll();
+        selectTab("trains");
+    }
+
+    start();
 }());
