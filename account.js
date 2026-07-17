@@ -81,10 +81,14 @@
 
     var logoutButton =
         document.getElementById("logoutButton");
+var unsavedIndicator =
+    document.getElementById("unsavedIndicator");
 
-    var unsavedIndicator =
-        document.getElementById("unsavedIndicator");
+var staffPanelNavLink =
+    document.getElementById("staffPanelNavLink");
 
+var staffPanelCard =
+    document.getElementById("staffPanelCard");
     var savedUser = null;
 
     if (discordLoginButton) {
@@ -429,7 +433,13 @@
         setAvatar(user);
         buildBadges(user);
         fillForm(user);
-
+if (Number(user.is_admin) === 1) {
+    showElement(staffPanelNavLink);
+    showElement(staffPanelCard, "block");
+} else {
+    hideElement(staffPanelNavLink);
+    hideElement(staffPanelCard);
+}
         if (createdAt) {
             createdAt.textContent =
                 formatDate(user.created_at);
@@ -482,7 +492,8 @@
             "Accounts API online"
         );
     }
-
+hideElement(staffPanelNavLink);
+hideElement(staffPanelCard);
     function setWorking(
         button,
         working,
